@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pennywrenn.net</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&family=Martian+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0b09;
+  --s1: #141210;
+  --s2: #1c1a16;
+  --s3: #252118;
+  --border: #322e25;
+  --lime: #c8f135;
+  --coral: #ff5c3a;
+  --sky: #5ecfee;
+  --mauve: #d4a8ff;
+  --gold: #f0c842;
+  --text: #ede8de;
+  --warm: #b8a98a;
+  --muted: #5e5848;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: default;
+  user-select: none;
+}
+
+/* GRAIN */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── MENUBAR ── */
+.menubar {
+  height: 26px;
+  background: rgba(12,11,9,0.95);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 18px;
+  flex-shrink: 0;
+  z-index: 500;
+  backdrop-filter: blur(8px);
+}
+.menubar .logo {
+  font-family: 'Spectral', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--lime);
+  letter-spacing: -0.02em;
+  margin-right: 6px;
+}
+.menubar .menu-item {
+  font-family: 'Martian Mono', monospace;
+  font-size: 9.5px;
+  color: var(--warm);
+  opacity: 0.75;
+  cursor: pointer;
+  transition: opacity 0.1s;
+  letter-spacing: 0.02em;
+}
+.menubar .menu-item:hover { opacity: 1; color: var(--text); }
+.menubar .right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.menubar .clock {
+  font-family: 'Martian Mono', monospace;
+  font-size: 9px;
+  color: var(--warm);
+}
+.menubar .wifi-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 6px var(--lime);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; } 50% { opacity: 0.4; }
+}
+
+/* ── DESKTOP ── */
+.desktop {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── VIEW SWITCHER ── */
+.view-switcher {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.vbtn {
+  padding: 5px 18px;
+  font-family: 'Martian Mono', monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  border-right: 1px solid var(--border);
+}
+.vbtn:last-child { border-right: none; }
+.vbtn:hover { color: var(--text); background: var(--s3); }
+.vbtn.active { background: var(--lime); color: #000; font-weight: 700; }
+
+/* ══════════════════════════════════
+   VIEW 1: JIGSAW
+══════════════════════════════════ */
+#view-jigsaw {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  padding: 62px 40px 70px;
+}
+
+.jigsaw-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 30% 60%, rgba(200,241,53,0.03) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 40% at 75% 25%, rgba(94,207,238,0.03) 0%, transparent 70%);
+}
+
+.macro-cluster {
+  position: absolute;
+  cursor: grab;
+  transition: filter 0.2s, transform 0.2s;
+}
+.macro-cluster:hover { filter: brightness(1.12); z-index: 30; }
+.macro-cluster:active { cursor: grabbing; }
+
+.cluster-label {
+  font-family: 'Spectral', serif;
+  font-style: italic;
+  font-size: 10px;
+  color: var(--warm);
+  opacity: 0.6;
+  margin-bottom: 5px;
+  letter-spacing: 0.02em;
+}
+
+.pieces-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  max-width: 260px;
+}
+
+.piece {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Martian Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #000;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  padding: 5px 8px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.piece:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  z-index: 5;
+}
+.piece::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* Tab connectors using clip-path illusion via border-radius shapes */
+.piece.wide { padding: 5px 18px; }
+.piece.tall { padding: 12px 8px; }
+
+/* Piece color schemes by cluster */
+.c-dementia .piece { background: var(--mauve); }
+.c-dementia .piece:nth-child(2n) { background: #b892ee; }
+.c-dementia .piece:nth-child(3n) { background: #c4a0f5; }
+
+.c-power .piece { background: var(--coral); }
+.c-power .piece:nth-child(2n) { background: #e8472a; }
+.c-power .piece:nth-child(3n) { background: #ff7055; }
+
+.c-search .piece { background: var(--sky); }
+.c-search .piece:nth-child(2n) { background: #3dbde0; }
+
+.c-ideas .piece { background: var(--gold); }
+.c-ideas .piece:nth-child(2n) { background: #e8b830; }
+
+.c-midlife .piece { background: var(--lime); }
+.c-midlife .piece:nth-child(2n) { background: #b0dc1e; }
+
+.c-penny .piece { background: var(--warm); color: #1c1a16; }
+.c-penny .piece:nth-child(2n) { background: #c8b898; }
+
+/* macro label overlay */
+.macro-tag {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: 'Martian Mono', monospace;
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 2px 5px;
+  border-radius: 2px;
+}
+
+/* connector hint lines */
+.connector {
+  position: absolute;
+  background: none;
+  border: 1px dashed rgba(255,255,255,0.04);
+  pointer-events: none;
+  border-radius: 1px;
+}
+
+/* ══════════════════════════════════
+   VIEW 2: JUMBLE
+══════════════════════════════════ */
+#view-jumble {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  padding: 62px 20px 70px;
+  display: none;
+}
+
+.jumble-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle 300px at 20% 70%, rgba(255,92,58,0.05) 0%, transparent 70%),
+    radial-gradient(circle 400px at 80% 30%, rgba(212,168,255,0.05) 0%, transparent 70%);
+}
+
+.jumble-field {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.jcard {
+  position: absolute;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 13px 15px 11px;
+  width: 170px;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s, border-color 0.2s;
+  animation: carddrop 0.5s cubic-bezier(.34,1.56,.64,1) both;
+}
+.jcard:hover {
+  transform: translateY(-6px) rotate(0deg) !important;
+  box-shadow: 0 16px 50px rgba(0,0,0,0.7), 0 0 0 1.5px var(--lime);
+  border-color: var(--lime);
+  z-index: 30;
+}
+@keyframes carddrop {
+  from { opacity: 0; transform: translateY(30px) rotate(var(--r)); }
+  to   { opacity: 1; transform: translateY(0) rotate(var(--r)); }
+}
+
+.jcard-domain {
+  font-family: 'Martian Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  word-break: break-all;
+  line-height: 1.3;
+}
+.jcard-desc {
+  font-family: 'Spectral', serif;
+  font-size: 11px;
+  color: var(--warm);
+  line-height: 1.5;
+  font-style: italic;
+  opacity: 0.85;
+}
+.jcard-tag {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: 'Martian Mono', monospace;
+  font-size: 7.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 5px;
+  border-radius: 2px;
+  color: #000;
+}
+.jcard-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+}
+
+/* ══════════════════════════════════
+   VIEW 3: JUST THE FACTS
+══════════════════════════════════ */
+#view-facts {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  padding-top: 50px;
+  padding-bottom: 52px;
+}
+
+.facts-top {
+  padding: 12px 28px 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.facts-top h1 {
+  font-family: 'Spectral', serif;
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.facts-top h1 span { color: var(--lime); }
+.facts-top .tagline {
+  font-family: 'Martian Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.facts-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  overflow: hidden;
+}
+
+.facts-nav {
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 12px 0;
+}
+.facts-nav::-webkit-scrollbar { width: 2px; }
+.facts-nav::-webkit-scrollbar-thumb { background: var(--border); }
+
+.nav-group { margin-bottom: 4px; }
+.nav-group-label {
+  padding: 6px 16px 3px;
+  font-family: 'Martian Mono', monospace;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 16px;
+  font-size: 11.5px;
+  color: var(--warm);
+  cursor: pointer;
+  transition: all 0.1s;
+  border-left: 2px solid transparent;
+  font-family: 'Syne', sans-serif;
+  font-weight: 400;
+}
+.nav-item:hover { background: var(--s2); color: var(--text); }
+.nav-item.active { border-left-color: var(--lime); color: var(--lime); background: rgba(200,241,53,0.04); }
+.nav-swatch {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+}
+
+.facts-content {
+  overflow-y: auto;
+  padding: 20px 28px;
+}
+.facts-content::-webkit-scrollbar { width: 2px; }
+.facts-content::-webkit-scrollbar-thumb { background: var(--border); }
+
+.facts-hero {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.facts-hero h2 {
+  font-family: 'Spectral', serif;
+  font-size: 32px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+.facts-hero h2 em { color: var(--lime); font-style: normal; }
+.facts-hero p {
+  font-size: 12.5px;
+  color: var(--warm);
+  line-height: 1.65;
+  max-width: 520px;
+}
+
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: 10px;
+}
+
+.fcard {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 13px 14px 12px;
+  cursor: pointer;
+  transition: all 0.12s;
+  position: relative;
+  overflow: hidden;
+}
+.fcard:hover { border-color: rgba(200,241,53,0.4); background: var(--s2); }
+.fcard:hover::after {
+  content: '→';
+  position: absolute;
+  bottom: 10px; right: 12px;
+  font-size: 14px;
+  color: var(--lime);
+  opacity: 0.8;
+}
+.fcard-accent {
+  height: 2px;
+  border-radius: 2px;
+  margin-bottom: 10px;
+}
+.fcard-domain {
+  font-family: 'Martian Mono', monospace;
+  font-size: 10px;
+  color: var(--sky);
+  margin-bottom: 5px;
+  word-break: break-all;
+  line-height: 1.3;
+}
+.fcard-desc {
+  font-family: 'Spectral', serif;
+  font-style: italic;
+  font-size: 11.5px;
+  color: var(--warm);
+  line-height: 1.5;
+  opacity: 0.85;
+}
+.fcard-renew {
+  margin-top: 8px;
+  font-family: 'Martian Mono', monospace;
+  font-size: 8px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── FOOTER TOOLBAR ── */
+.toolbar {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 14px;
+  background: rgba(20,18,16,0.92);
+  backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 14px 14px 0 0;
+  z-index: 300;
+  box-shadow: 0 -4px 40px rgba(0,0,0,0.5);
+}
+
+.tb-item {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.2s cubic-bezier(.34,1.56,.64,1);
+  position: relative;
+}
+.tb-item:hover {
+  background: rgba(255,255,255,0.06);
+  transform: translateY(-4px) scale(1.08);
+}
+.tb-item.active { background: rgba(200,241,53,0.1); }
+.tb-item svg { flex-shrink: 0; }
+.tb-label {
+  font-family: 'Martian Mono', monospace;
+  font-size: 7px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.tb-item.active .tb-label { color: var(--lime); }
+.tb-badge {
+  position: absolute;
+  top: 5px; right: 5px;
+  min-width: 13px; height: 13px;
+  background: var(--coral);
+  border-radius: 7px;
+  font-family: 'Martian Mono', monospace;
+  font-size: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  padding: 0 3px;
+}
+.tb-divider {
+  width: 1px;
+  height: 26px;
+  background: var(--border);
+  margin: 0 6px;
+  flex-shrink: 0;
+}
+.tb-dot {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px; height: 4px;
+  background: var(--lime);
+  border-radius: 50%;
+  box-shadow: 0 0 4px var(--lime);
+}
+
+/* ── TOOLTIP ── */
+.tooltip {
+  position: fixed;
+  background: var(--s3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-family: 'Martian Mono', monospace;
+  font-size: 9px;
+  color: var(--text);
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.15s;
+  max-width: 200px;
+  line-height: 1.5;
+}
+.tooltip.show { opacity: 1; }
+
+/* ── NOTIFICATION PANEL ── */
+.notif-panel {
+  position: absolute;
+  top: 32px; right: 12px;
+  width: 240px;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+  z-index: 600;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+  display: none;
+  animation: slidedown 0.2s ease;
+}
+@keyframes slidedown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.notif-panel.show { display: block; }
+.notif-title {
+  font-family: 'Martian Mono', monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.notif-item {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--warm);
+  line-height: 1.5;
+  font-family: 'Spectral', serif;
+  font-style: italic;
+}
+.notif-item:last-child { border-bottom: none; }
+.notif-item strong {
+  display: block;
+  font-style: normal;
+  font-family: 'Martian Mono', monospace;
+  font-size: 9px;
+  color: var(--coral);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+/* ── SEARCH OVERLAY ── */
+.search-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(12,11,9,0.85);
+  backdrop-filter: blur(10px);
+  z-index: 700;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 80px;
+}
+.search-overlay.show { display: flex; }
+.search-box {
+  width: 540px;
+  background: var(--s2);
+  border: 1px solid var(--lime);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(200,241,53,0.1);
+  animation: searchin 0.2s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes searchin {
+  from { opacity: 0; transform: translateY(-20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.search-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.search-input-row svg { flex-shrink: 0; opacity: 0.5; }
+.search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  color: var(--text);
+}
+.search-input::placeholder { color: var(--muted); }
+.search-results {
+  padding: 10px 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.search-result-item:hover { background: var(--s3); }
+.sr-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.sr-domain {
+  font-family: 'Martian Mono', monospace;
+  font-size: 10.5px;
+  color: var(--sky);
+  flex: 1;
+}
+.sr-cat {
+  font-family: 'Martian Mono', monospace;
+  font-size: 8px;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.search-hint {
+  padding: 8px 16px;
+  font-family: 'Martian Mono', monospace;
+  font-size: 8px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 16px;
+}
+</style>
+</head>
+<body>
+
+<!-- MENUBAR -->
+<div class="menubar">
+  <span class="logo">penny wrenn</span>
+  <span class="menu-item">File</span>
+  <span class="menu-item">View</span>
+  <span class="menu-item">Projects</span>
+  <span class="menu-item">Network</span>
+  <span class="menu-item">Help</span>
+  <div class="right">
+    <div class="wifi-dot"></div>
+    <span class="clock" id="clock">12:10 PM</span>
+  </div>
+</div>
+
+<!-- DESKTOP -->
+<div class="desktop">
+
+  <!-- VIEW SWITCHER -->
+  <div class="view-switcher">
+    <button class="vbtn active" onclick="switchView('jigsaw')">Jigsaw</button>
+    <button class="vbtn" onclick="switchView('jumble')">Jumble</button>
+    <button class="vbtn" onclick="switchView('facts')">Just the Facts</button>
+  </div>
+
+  <!-- ════ VIEW: JIGSAW ════ -->
+  <div id="view-jigsaw">
+    <div class="jigsaw-bg"></div>
+
+    <!-- Cluster: Penny Wrenn (anchor) -->
+    <div class="macro-cluster c-penny" style="left:38%; top:38%; transform:translate(-50%,-50%)">
+      <div class="cluster-label">pennywrenn · anchor</div>
+      <div class="pieces-wrap">
+        <div class="piece wide" style="background:#c8b898;color:#1c1a16;">pennywrenn.net</div>
+        <div class="piece" style="background:#b8a880;color:#1c1a16;">pennywrenn.org</div>
+        <div class="piece" style="background:#d0c0a0;color:#1c1a16;">pennywrenn.info</div>
+        <div class="piece" style="background:#b0a078;color:#1c1a16;">pennywrenn.media</div>
+        <div class="piece" style="background:#c0b088;color:#1c1a16;">pennywrenn.blog</div>
+        <div class="piece" style="background:#a89870;color:#1c1a16;">penrings.dad</div>
+      </div>
+      <div class="macro-tag">macro · identity system</div>
+    </div>
+
+    <!-- Cluster: Dementia -->
+    <div class="macro-cluster c-dementia" style="left:15%; top:30%">
+      <div class="cluster-label">dementia · advocacy</div>
+      <div class="pieces-wrap" style="max-width:220px">
+        <div class="piece wide">dementiacare.network</div>
+        <div class="piece">dementia.chat</div>
+        <div class="piece">dementia.partners</div>
+        <div class="piece">dementia.exchange</div>
+        <div class="piece wide">dementiadesrvesbetter.com</div>
+        <div class="piece" style="font-size:7px">…deservesbetter.org</div>
+        <div class="piece" style="font-size:7px">…deservesbetter.health</div>
+      </div>
+      <div class="macro-tag">macro · care ecosystem</div>
+    </div>
+
+    <!-- Cluster: Power2026 -->
+    <div class="macro-cluster c-power" style="right:12%; top:20%">
+      <div class="cluster-label">power2026 · civic</div>
+      <div class="pieces-wrap" style="max-width:200px">
+        <div class="piece wide">power2026.com</div>
+        <div class="piece">power2026.us</div>
+        <div class="piece">power2026.org</div>
+        <div class="piece">power2026.shop</div>
+        <div class="piece">power2026.press</div>
+        <div class="piece">power2026.nyt</div>
+      </div>
+      <div class="macro-tag">macro · movement suite</div>
+    </div>
+
+    <!-- Cluster: SearchJourney -->
+    <div class="macro-cluster c-search" style="left:18%; bottom:22%">
+      <div class="cluster-label">search journey · discovery</div>
+      <div class="pieces-wrap" style="max-width:180px">
+        <div class="piece wide">searchjourney.org</div>
+        <div class="piece">searchjourney.media</div>
+      </div>
+      <div class="macro-tag">macro · wayfinding</div>
+    </div>
+
+    <!-- Cluster: 101FreeidEAS -->
+    <div class="macro-cluster c-ideas" style="right:14%; bottom:28%">
+      <div class="cluster-label">101 free ideas · open source</div>
+      <div class="pieces-wrap" style="max-width:200px">
+        <div class="piece wide">101freeideas.com</div>
+        <div class="piece">101freeideas.directory</div>
+        <div class="piece">101freeideas.ai</div>
+      </div>
+      <div class="macro-tag">macro · ideabank</div>
+    </div>
+
+    <!-- Cluster: Midlife -->
+    <div class="macro-cluster c-midlife" style="left:52%; bottom:18%">
+      <div class="cluster-label">midlife · media</div>
+      <div class="pieces-wrap" style="max-width:180px">
+        <div class="piece wide">midlife.media</div>
+        <div class="piece">midlife.work</div>
+        <div class="piece wide">worriedaboutthewrongthing.com</div>
+      </div>
+      <div class="macro-tag">macro · editorial</div>
+    </div>
+
+    <!-- connector hints -->
+    <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1" id="connectors">
+      <!-- drawn by JS -->
+    </svg>
+  </div>
+
+  <!-- ════ VIEW: JUMBLE ════ -->
+  <div id="view-jumble">
+    <div class="jumble-bg"></div>
+    <div class="jumble-field" id="jumble-field"></div>
+  </div>
+
+  <!-- ════ VIEW: FACTS ════ -->
+  <div id="view-facts">
+    <div class="facts-top">
+      <h1><span>penny</span>wrenn.net</h1>
+      <span class="tagline">// umbrella · 36 domains · 6 clusters</span>
+    </div>
+    <div class="facts-body">
+      <nav class="facts-nav" id="facts-nav"></nav>
+      <div class="facts-content" id="facts-content"></div>
+    </div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <!-- Search -->
+    <div class="tb-item active" id="tb-search" title="Search" onclick="toggleSearch()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.8">
+        <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <span class="tb-label">Search</span>
+      <div class="tb-dot"></div>
+    </div>
+
+    <div class="tb-divider"></div>
+
+    <!-- Inbox -->
+    <div class="tb-item" id="tb-inbox" title="Inbox" onclick="toggleNotif()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--warm)" stroke-width="1.8">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      <span class="tb-label">Inbox</span>
+      <div class="tb-badge">3</div>
+    </div>
+
+    <!-- Modules / AppStore-esque -->
+    <div class="tb-item" title="Modules">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--sky)" stroke-width="1.8">
+        <rect x="2" y="3" width="9" height="9" rx="1.5"/>
+        <rect x="13" y="3" width="9" height="9" rx="1.5"/>
+        <rect x="2" y="14" width="9" height="9" rx="1.5"/>
+        <rect x="13" y="14" width="9" height="9" rx="1.5"/>
+      </svg>
+      <span class="tb-label">Modules</span>
+    </div>
+
+    <div class="tb-divider"></div>
+
+    <!-- Projects -->
+    <div class="tb-item" title="Projects">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--mauve)" stroke-width="1.8">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+      </svg>
+      <span class="tb-label">Projects</span>
+    </div>
+
+    <!-- Signal / Subscribe -->
+    <div class="tb-item" title="Subscribe">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3-8.59A2 2 0 0 1 3.17 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/>
+      </svg>
+      <span class="tb-label">Signal</span>
+    </div>
+
+    <div class="tb-divider"></div>
+
+    <!-- Settings -->
+    <div class="tb-item" title="Settings">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.8">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+      <span class="tb-label">Config</span>
+    </div>
+  </div>
+
+  <!-- NOTIFICATION PANEL -->
+  <div class="notif-panel" id="notif-panel">
+    <div class="notif-title">// recent signals</div>
+    <div class="notif-item"><strong>renewal · 31 days</strong> pennywrenn.net + pennywrenn.org expire soon — auto-renew queued</div>
+    <div class="notif-item"><strong>new subscriber</strong> 101freeideas.ai — 1 new module download request</div>
+    <div class="notif-item"><strong>power2026 · update</strong> searchjourney.media published a new thread</div>
+  </div>
+
+  <!-- SEARCH OVERLAY -->
+  <div class="search-overlay" id="search-overlay" onclick="closeSearch(event)">
+    <div class="search-box" onclick="event.stopPropagation()">
+      <div class="search-input-row">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="search-input" id="search-input" placeholder="Search all domains, projects, ideas…" oninput="filterSearch(this.value)" autofocus>
+      </div>
+      <div class="search-results" id="search-results"></div>
+      <div class="search-hint">
+        <span>↑↓ navigate</span>
+        <span>↵ open</span>
+        <span>esc close</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /desktop -->
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+// ── DATA ──
+const clusters = [
+  {
+    id: 'identity', label: 'Identity System', color: '#c8b898',
+    domains: [
+      { domain: 'pennywrenn.net', desc: 'Umbrella · full domain protection', renew: 'May 30, 2026' },
+      { domain: 'pennywrenn.org', desc: 'Civic & advocacy home', renew: 'May 30, 2026' },
+      { domain: 'pennywrenn.info', desc: 'Informational archive', renew: 'May 30, 2026' },
+      { domain: 'pennywrenn.media', desc: 'Media & publishing arm', renew: 'Apr 30, 2026' },
+      { domain: 'pennywrenn.blog', desc: 'Personal editorial voice', renew: 'Apr 30, 2026' },
+      { domain: 'penrings.dad', desc: 'Personal · family space', renew: 'Apr 30, 2026' },
+    ]
+  },
+  {
+    id: 'dementia', label: 'Dementia Advocacy', color: '#d4a8ff',
+    domains: [
+      { domain: 'dementiacare.network', desc: 'Care coordination hub', renew: 'Apr 30, 2026' },
+      { domain: 'dementia.chat', desc: 'Community conversation space', renew: 'Apr 30, 2026' },
+      { domain: 'dementia.partners', desc: 'Partner & coalition directory', renew: 'Apr 30, 2026' },
+      { domain: 'dementia.exchange', desc: 'Resource exchange platform', renew: 'Apr 30, 2026' },
+      { domain: 'dementiadesrvesbetter.com', desc: 'Advocacy campaign flagship', renew: 'Apr 01, 2026' },
+      { domain: 'dementiadesrvesbetter.healthcare', desc: 'Healthcare-sector campaign', renew: 'Apr 01, 2026' },
+      { domain: 'dementiadesrvesbetter.org', desc: 'Nonprofit campaign extension', renew: 'Apr 30, 2026' },
+    ]
+  },
+  {
+    id: 'power', label: 'Power 2026', color: '#ff5c3a',
+    domains: [
+      { domain: 'power2026.com', desc: 'Civic movement · main', renew: 'Jul 4, 2026' },
+      { domain: 'power2026.us', desc: 'U.S. civic activation', renew: 'Jul 4, 2026' },
+      { domain: 'power2026.org', desc: 'Org & coalition home', renew: 'Jul 4, 2026' },
+      { domain: 'power2026.shop', desc: 'Merch & supporter store', renew: 'Jul 5, 2026' },
+      { domain: 'power2026.press', desc: 'Press & media relations', renew: 'Jul 5, 2026' },
+      { domain: 'power2026.nyt', desc: 'Editorial presence', renew: 'Jul 5, 2026' },
+    ]
+  },
+  {
+    id: 'search', label: 'Search Journey', color: '#5ecfee',
+    domains: [
+      { domain: 'searchjourney.org', desc: 'Wayfinding · discovery platform', renew: 'Apr 30, 2026' },
+      { domain: 'searchjourney.media', desc: 'Editorial & story publishing', renew: 'Apr 30, 2026' },
+    ]
+  },
+  {
+    id: 'ideas', label: '101 Free Ideas', color: '#f0c842',
+    domains: [
+      { domain: '101freeideas.com', desc: 'Open-source idea library', renew: 'Dec 5, 2026' },
+      { domain: '101freeideas.directory', desc: 'Searchable idea index', renew: 'Dec 5, 2026' },
+      { domain: '101freeideas.ai', desc: 'AI-assisted idea generation', renew: 'Dec 5, 2026' },
+    ]
+  },
+  {
+    id: 'midlife', label: 'Midlife Media', color: '#c8f135',
+    domains: [
+      { domain: 'midlife.media', desc: 'Media brand for the midlife moment', renew: 'Apr 30, 2026' },
+      { domain: 'midlife.work', desc: 'Career & purpose reinvention', renew: 'Apr 30, 2026' },
+      { domain: 'worriedaboutthewrongthing.com', desc: 'Reframe-focused editorial', renew: 'Apr 29, 2026' },
+    ]
+  },
+];
+
+// ── CLOCK ──
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'});
+}
+updateClock();
+setInterval(updateClock, 10000);
+
+// ── VIEW SWITCHING ──
+function switchView(name) {
+  document.querySelectorAll('.vbtn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase().includes(name.split('')[0])));
+  document.querySelectorAll('[id^="view-"]').forEach(v => {
+    v.style.display = 'none';
+    v.style.setProperty('display','none');
+  });
+  const target = document.getElementById('view-' + name);
+  target.style.display = name === 'facts' ? 'flex' : 'block';
+
+  // fix button active state properly
+  document.querySelectorAll('.vbtn').forEach(b => {
+    b.classList.remove('active');
+    if ((name === 'jigsaw' && b.textContent === 'Jigsaw') ||
+        (name === 'jumble' && b.textContent === 'Jumble') ||
+        (name === 'facts' && b.textContent === 'Just the Facts')) {
+      b.classList.add('active');
+    }
+  });
+
+  if (name === 'jumble') buildJumble();
+  if (name === 'facts') buildFacts();
+}
+
+// ── JIGSAW drag (simple) ──
+document.querySelectorAll('.macro-cluster').forEach(el => {
+  let dx, dy, dragging = false;
+  el.addEventListener('mousedown', e => {
+    dragging = true;
+    const r = el.getBoundingClientRect();
+    dx = e.clientX - r.left;
+    dy = e.clientY - r.top;
+    el.style.zIndex = 50;
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const parent = el.parentElement.getBoundingClientRect();
+    el.style.left = (e.clientX - parent.left - dx) + 'px';
+    el.style.top = (e.clientY - parent.top - dy) + 'px';
+    el.style.transform = 'none';
+  });
+  document.addEventListener('mouseup', () => { dragging = false; el.style.zIndex = ''; });
+});
+
+// ── JUMBLE BUILD ──
+function buildJumble() {
+  const field = document.getElementById('jumble-field');
+  field.innerHTML = '';
+  const allDomains = clusters.flatMap(c => c.domains.map(d => ({...d, color: c.color, clabel: c.label})));
+  // shuffle
+  for (let i = allDomains.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [allDomains[i], allDomains[j]] = [allDomains[j], allDomains[i]];
+  }
+
+  const W = field.parentElement.offsetWidth - 200;
+  const H = field.parentElement.offsetHeight - 150;
+
+  allDomains.forEach((d, i) => {
+    const card = document.createElement('div');
+    card.className = 'jcard';
+    const rot = (Math.random() - 0.5) * 6;
+    card.style.setProperty('--r', rot + 'deg');
+    card.style.transform = `rotate(${rot}deg)`;
+    card.style.left = (20 + Math.random() * W) + 'px';
+    card.style.top = (20 + Math.random() * H) + 'px';
+    card.style.animationDelay = (i * 0.04) + 's';
+    card.style.zIndex = i;
+
+    card.innerHTML = `
+      <div class="jcard-line" style="background:${d.color}"></div>
+      <div class="jcard-domain" style="color:${d.color}">${d.domain}</div>
+      <div class="jcard-desc">${d.desc}</div>
+      <div class="jcard-tag" style="background:${d.color}">${d.clabel}</div>
+    `;
+
+    // drag
+    let dx2, dy2, drag2 = false;
+    card.addEventListener('mousedown', e => {
+      drag2 = true;
+      const r = card.getBoundingClientRect();
+      dx2 = e.clientX - r.left;
+      dy2 = e.clientY - r.top;
+      card.style.zIndex = 100;
+      card.style.transform = `rotate(0deg) scale(1.03)`;
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', e => {
+      if (!drag2) return;
+      const pr = field.getBoundingClientRect();
+      card.style.left = (e.clientX - pr.left - dx2) + 'px';
+      card.style.top = (e.clientY - pr.top - dy2) + 'px';
+    });
+    document.addEventListener('mouseup', () => {
+      if (drag2) { drag2 = false; card.style.zIndex = i; card.style.transform = `rotate(${rot}deg)`; }
+    });
+
+    field.appendChild(card);
+  });
+}
+
+// ── FACTS BUILD ──
+function buildFacts() {
+  const nav = document.getElementById('facts-nav');
+  const content = document.getElementById('facts-content');
+
+  nav.innerHTML = '';
+  clusters.forEach((c, i) => {
+    const group = document.createElement('div');
+    group.className = 'nav-group';
+    const label = document.createElement('div');
+    label.className = 'nav-group-label';
+    label.textContent = `// ${c.id}`;
+    group.appendChild(label);
+    c.domains.forEach(d => {
+      const item = document.createElement('div');
+      item.className = 'nav-item' + (i === 0 ? ' active' : '');
+      item.innerHTML = `<div class="nav-swatch" style="background:${c.color}"></div>${d.domain}`;
+      item.onclick = () => {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        item.classList.add('active');
+        showCluster(c);
+      };
+      group.appendChild(item);
+    });
+    nav.appendChild(group);
+  });
+
+  showCluster(clusters[0]);
+}
+
+function showCluster(c) {
+  const content = document.getElementById('facts-content');
+  content.innerHTML = `
+    <div class="facts-hero">
+      <h2>${c.label.split(' ').map((w,i) => i===0 ? `<em>${w}</em>` : w).join(' ')}</h2>
+      <p>${c.domains.length} domain${c.domains.length>1?'s':''} in this cluster — forming a networked system of presence across the web. Each domain subscribable as a module or accessible as standalone.</p>
+    </div>
+    <div class="facts-grid">
+      ${c.domains.map(d => `
+        <div class="fcard">
+          <div class="fcard-accent" style="background:${c.color}"></div>
+          <div class="fcard-domain">${d.domain}</div>
+          <div class="fcard-desc">${d.desc}</div>
+          <div class="fcard-renew">↻ ${d.renew}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+// ── SEARCH ──
+function toggleSearch() {
+  const o = document.getElementById('search-overlay');
+  o.classList.toggle('show');
+  if (o.classList.contains('show')) {
+    setTimeout(() => document.getElementById('search-input').focus(), 50);
+    filterSearch('');
+  }
+}
+function closeSearch(e) {
+  document.getElementById('search-overlay').classList.remove('show');
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSearch();
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); toggleSearch(); }
+});
+
+function filterSearch(q) {
+  const r = document.getElementById('search-results');
+  const all = clusters.flatMap(c => c.domains.map(d => ({...d, color:c.color, cat:c.label})));
+  const matches = q ? all.filter(d => d.domain.includes(q.toLowerCase()) || d.desc.toLowerCase().includes(q.toLowerCase()) || d.cat.toLowerCase().includes(q.toLowerCase())) : all.slice(0,12);
+  r.innerHTML = matches.slice(0,12).map(d => `
+    <div class="search-result-item">
+      <div class="sr-dot" style="background:${d.color}"></div>
+      <div class="sr-domain">${d.domain}</div>
+      <div class="sr-cat">${d.cat}</div>
+    </div>
+  `).join('') || '<div style="padding:12px 16px;font-size:11px;color:var(--muted);font-family:Martian Mono,monospace;">no results</div>';
+}
+
+// ── NOTIF ──
+function toggleNotif() {
+  document.getElementById('notif-panel').classList.toggle('show');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('#notif-panel') && !e.target.closest('#tb-inbox')) {
+    document.getElementById('notif-panel').classList.remove('show');
+  }
+});
+</script>
+</body>
+</html>
