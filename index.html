@@ -3,1220 +3,649 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>pennywrenn.net</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&family=Martian+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<title>21 Out of 24 — Penny Wrenn</title>
 <style>
-:root {
-  --bg: #0c0b09;
-  --s1: #141210;
-  --s2: #1c1a16;
-  --s3: #252118;
-  --border: #322e25;
-  --lime: #c8f135;
-  --coral: #ff5c3a;
-  --sky: #5ecfee;
-  --mauve: #d4a8ff;
-  --gold: #f0c842;
-  --text: #ede8de;
-  --warm: #b8a98a;
-  --muted: #5e5848;
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #080808;
+    --deep: #111;
+    --dark: #1a1a1a;
+    --mid: #262626;
+    --border: #333;
+    --gold: #c9973a;
+    --gold-light: #e8b84d;
+    --white: #f0ebe3;
+    --off: #c8c0b4;
+    --grey: #888;
+    --dim: #555;
+    --red: #a52a2a;
+  }
 
-html, body { height: 100%; overflow: hidden; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Georgia', serif;
+    font-size: 18px;
+    line-height: 1.85;
+  }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Syne', sans-serif;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  cursor: default;
-  user-select: none;
-}
+  /* MASTHEAD */
+  .masthead {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: rgba(8,8,8,0.97);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+  }
+  .masthead-brand {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .masthead-label {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
 
-/* GRAIN */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9000;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-}
+  /* READ TIME */
+  .read-meta {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 48px 24px 0;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .read-tag {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 5px 14px;
+    border-radius: 20px;
+  }
+  .read-time {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
 
-/* ── MENUBAR ── */
-.menubar {
-  height: 26px;
-  background: rgba(12,11,9,0.95);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  padding: 0 14px;
-  gap: 18px;
-  flex-shrink: 0;
-  z-index: 500;
-  backdrop-filter: blur(8px);
-}
-.menubar .logo {
-  font-family: 'Spectral', serif;
-  font-style: italic;
-  font-size: 13px;
-  color: var(--lime);
-  letter-spacing: -0.02em;
-  margin-right: 6px;
-}
-.menubar .menu-item {
-  font-family: 'Martian Mono', monospace;
-  font-size: 9.5px;
-  color: var(--warm);
-  opacity: 0.75;
-  cursor: pointer;
-  transition: opacity 0.1s;
-  letter-spacing: 0.02em;
-}
-.menubar .menu-item:hover { opacity: 1; color: var(--text); }
-.menubar .right {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.menubar .clock {
-  font-family: 'Martian Mono', monospace;
-  font-size: 9px;
-  color: var(--warm);
-}
-.menubar .wifi-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--lime);
-  box-shadow: 0 0 6px var(--lime);
-  animation: pulse 2.5s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%,100% { opacity: 1; } 50% { opacity: 0.4; }
-}
+  /* ARTICLE */
+  .article {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 48px 24px 120px;
+  }
 
-/* ── DESKTOP ── */
-.desktop {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-}
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 24px;
+    letter-spacing: -0.5px;
+  }
+  h1 .score { color: var(--gold); }
 
-/* ── VIEW SWITCHER ── */
-.view-switcher {
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 200;
-  display: flex;
-  background: var(--s2);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  overflow: hidden;
-}
-.vbtn {
-  padding: 5px 18px;
-  font-family: 'Martian Mono', monospace;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  border: none;
-  background: none;
-  cursor: pointer;
-  transition: all 0.15s;
-  border-right: 1px solid var(--border);
-}
-.vbtn:last-child { border-right: none; }
-.vbtn:hover { color: var(--text); background: var(--s3); }
-.vbtn.active { background: var(--lime); color: #000; font-weight: 700; }
+  .deck {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--off);
+    margin-bottom: 40px;
+    font-style: italic;
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+  }
 
-/* ══════════════════════════════════
-   VIEW 1: JIGSAW
-══════════════════════════════════ */
-#view-jigsaw {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  padding: 62px 40px 70px;
-}
+  .byline {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .byline span { color: var(--gold); }
 
-.jigsaw-bg {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 60% 50% at 30% 60%, rgba(200,241,53,0.03) 0%, transparent 70%),
-              radial-gradient(ellipse 40% 40% at 75% 25%, rgba(94,207,238,0.03) 0%, transparent 70%);
-}
+  p { margin-bottom: 28px; color: var(--off); }
 
-.macro-cluster {
-  position: absolute;
-  cursor: grab;
-  transition: filter 0.2s, transform 0.2s;
-}
-.macro-cluster:hover { filter: brightness(1.12); z-index: 30; }
-.macro-cluster:active { cursor: grabbing; }
+  /* DROP CAP */
+  .dropcap::first-letter {
+    font-size: 4.5rem;
+    font-weight: 700;
+    float: left;
+    line-height: 0.85;
+    margin: 8px 14px 0 0;
+    color: var(--gold);
+    font-family: 'Georgia', serif;
+  }
 
-.cluster-label {
-  font-family: 'Spectral', serif;
-  font-style: italic;
-  font-size: 10px;
-  color: var(--warm);
-  opacity: 0.6;
-  margin-bottom: 5px;
-  letter-spacing: 0.02em;
-}
+  /* SECTION HEADERS */
+  .section-break {
+    margin: 64px 0 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-num {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  h2 {
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.25;
+    margin-bottom: 24px;
+  }
 
-.pieces-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3px;
-  max-width: 260px;
-}
+  /* PULL QUOTES */
+  blockquote {
+    border-left: 4px solid var(--gold);
+    margin: 40px 0;
+    padding: 20px 28px;
+    background: var(--dark);
+    border-radius: 0 8px 8px 0;
+  }
+  blockquote p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--white);
+    font-style: italic;
+    margin-bottom: 0;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 12px;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-style: normal;
+  }
 
-.piece {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Martian Mono', monospace;
-  font-size: 8px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #000;
-  border-radius: 2px;
-  position: relative;
-  overflow: hidden;
-  padding: 5px 8px;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.piece:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  z-index: 5;
-}
-.piece::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 55%);
-  pointer-events: none;
-}
+  /* SCORE CARD */
+  .score-card {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--gold);
+    border-radius: 8px;
+    padding: 32px;
+    margin: 40px 0;
+  }
+  .score-card-title {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  .score-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 520px) { .score-grid { grid-template-columns: 1fr; } }
+  .score-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .score-item:last-child, .score-item:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+  .score-dim {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 4px;
+  }
+  .score-answer {
+    font-size: 0.85rem;
+    color: var(--off);
+    line-height: 1.4;
+  }
+  .score-answer.miss { color: var(--red); }
+  .score-answer.hit { color: var(--gold-light); }
+  .score-total {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .score-total-label {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  .score-total-num {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--gold);
+  }
 
-/* Tab connectors using clip-path illusion via border-radius shapes */
-.piece.wide { padding: 5px 18px; }
-.piece.tall { padding: 12px 8px; }
+  /* MARKET BOX */
+  .market-box {
+    background: var(--mid);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin: 40px 0;
+  }
+  .market-box-title {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  .market-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .market-item:last-child { border-bottom: none; }
+  .market-item-label { font-size: 0.9rem; color: var(--off); flex: 1; }
+  .market-item-size {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--gold-light);
+    flex-shrink: 0;
+  }
 
-/* Piece color schemes by cluster */
-.c-dementia .piece { background: var(--mauve); }
-.c-dementia .piece:nth-child(2n) { background: #b892ee; }
-.c-dementia .piece:nth-child(3n) { background: #c4a0f5; }
+  /* DIRECTIVES */
+  .directive-block {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin: 40px 0;
+  }
+  .directive-eyebrow {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .directive-text {
+    font-size: 1.05rem;
+    color: var(--white);
+    font-style: italic;
+    line-height: 1.6;
+    margin: 0;
+  }
 
-.c-power .piece { background: var(--coral); }
-.c-power .piece:nth-child(2n) { background: #e8472a; }
-.c-power .piece:nth-child(3n) { background: #ff7055; }
+  /* DIVIDER */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0;
+  }
 
-.c-search .piece { background: var(--sky); }
-.c-search .piece:nth-child(2n) { background: #3dbde0; }
+  /* CLOSER */
+  .closer {
+    border-top: 4px solid var(--gold);
+    padding-top: 40px;
+    margin-top: 64px;
+  }
+  .closer-label {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  .closer p { font-size: 1rem; }
 
-.c-ideas .piece { background: var(--gold); }
-.c-ideas .piece:nth-child(2n) { background: #e8b830; }
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--border);
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 24px 60px;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--dim);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer span { color: var(--gold); }
 
-.c-midlife .piece { background: var(--lime); }
-.c-midlife .piece:nth-child(2n) { background: #b0dc1e; }
-
-.c-penny .piece { background: var(--warm); color: #1c1a16; }
-.c-penny .piece:nth-child(2n) { background: #c8b898; }
-
-/* macro label overlay */
-.macro-tag {
-  display: inline-block;
-  margin-top: 6px;
-  font-family: 'Martian Mono', monospace;
-  font-size: 7px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  padding: 2px 5px;
-  border-radius: 2px;
-}
-
-/* connector hint lines */
-.connector {
-  position: absolute;
-  background: none;
-  border: 1px dashed rgba(255,255,255,0.04);
-  pointer-events: none;
-  border-radius: 1px;
-}
-
-/* ══════════════════════════════════
-   VIEW 2: JUMBLE
-══════════════════════════════════ */
-#view-jumble {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  padding: 62px 20px 70px;
-  display: none;
-}
-
-.jumble-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle 300px at 20% 70%, rgba(255,92,58,0.05) 0%, transparent 70%),
-    radial-gradient(circle 400px at 80% 30%, rgba(212,168,255,0.05) 0%, transparent 70%);
-}
-
-.jumble-field {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.jcard {
-  position: absolute;
-  background: var(--s1);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  padding: 13px 15px 11px;
-  width: 170px;
-  cursor: pointer;
-  transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s, border-color 0.2s;
-  animation: carddrop 0.5s cubic-bezier(.34,1.56,.64,1) both;
-}
-.jcard:hover {
-  transform: translateY(-6px) rotate(0deg) !important;
-  box-shadow: 0 16px 50px rgba(0,0,0,0.7), 0 0 0 1.5px var(--lime);
-  border-color: var(--lime);
-  z-index: 30;
-}
-@keyframes carddrop {
-  from { opacity: 0; transform: translateY(30px) rotate(var(--r)); }
-  to   { opacity: 1; transform: translateY(0) rotate(var(--r)); }
-}
-
-.jcard-domain {
-  font-family: 'Martian Mono', monospace;
-  font-size: 9.5px;
-  font-weight: 700;
-  margin-bottom: 5px;
-  word-break: break-all;
-  line-height: 1.3;
-}
-.jcard-desc {
-  font-family: 'Spectral', serif;
-  font-size: 11px;
-  color: var(--warm);
-  line-height: 1.5;
-  font-style: italic;
-  opacity: 0.85;
-}
-.jcard-tag {
-  display: inline-block;
-  margin-top: 8px;
-  font-family: 'Martian Mono', monospace;
-  font-size: 7.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 2px 5px;
-  border-radius: 2px;
-  color: #000;
-}
-.jcard-line {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  border-radius: 3px 3px 0 0;
-}
-
-/* ══════════════════════════════════
-   VIEW 3: JUST THE FACTS
-══════════════════════════════════ */
-#view-facts {
-  position: absolute;
-  inset: 0;
-  display: none;
-  flex-direction: column;
-  padding-top: 50px;
-  padding-bottom: 52px;
-}
-
-.facts-top {
-  padding: 12px 28px 10px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  flex-shrink: 0;
-}
-.facts-top h1 {
-  font-family: 'Spectral', serif;
-  font-style: italic;
-  font-size: 22px;
-  font-weight: 300;
-  color: var(--text);
-  letter-spacing: -0.02em;
-}
-.facts-top h1 span { color: var(--lime); }
-.facts-top .tagline {
-  font-family: 'Martian Mono', monospace;
-  font-size: 9px;
-  color: var(--muted);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.facts-body {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  overflow: hidden;
-}
-
-.facts-nav {
-  border-right: 1px solid var(--border);
-  overflow-y: auto;
-  padding: 12px 0;
-}
-.facts-nav::-webkit-scrollbar { width: 2px; }
-.facts-nav::-webkit-scrollbar-thumb { background: var(--border); }
-
-.nav-group { margin-bottom: 4px; }
-.nav-group-label {
-  padding: 6px 16px 3px;
-  font-family: 'Martian Mono', monospace;
-  font-size: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-}
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 16px;
-  font-size: 11.5px;
-  color: var(--warm);
-  cursor: pointer;
-  transition: all 0.1s;
-  border-left: 2px solid transparent;
-  font-family: 'Syne', sans-serif;
-  font-weight: 400;
-}
-.nav-item:hover { background: var(--s2); color: var(--text); }
-.nav-item.active { border-left-color: var(--lime); color: var(--lime); background: rgba(200,241,53,0.04); }
-.nav-swatch {
-  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
-}
-
-.facts-content {
-  overflow-y: auto;
-  padding: 20px 28px;
-}
-.facts-content::-webkit-scrollbar { width: 2px; }
-.facts-content::-webkit-scrollbar-thumb { background: var(--border); }
-
-.facts-hero {
-  margin-bottom: 24px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border);
-}
-.facts-hero h2 {
-  font-family: 'Spectral', serif;
-  font-size: 32px;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--text);
-  line-height: 1.15;
-  margin-bottom: 10px;
-}
-.facts-hero h2 em { color: var(--lime); font-style: normal; }
-.facts-hero p {
-  font-size: 12.5px;
-  color: var(--warm);
-  line-height: 1.65;
-  max-width: 520px;
-}
-
-.facts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-  gap: 10px;
-}
-
-.fcard {
-  background: var(--s1);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  padding: 13px 14px 12px;
-  cursor: pointer;
-  transition: all 0.12s;
-  position: relative;
-  overflow: hidden;
-}
-.fcard:hover { border-color: rgba(200,241,53,0.4); background: var(--s2); }
-.fcard:hover::after {
-  content: '→';
-  position: absolute;
-  bottom: 10px; right: 12px;
-  font-size: 14px;
-  color: var(--lime);
-  opacity: 0.8;
-}
-.fcard-accent {
-  height: 2px;
-  border-radius: 2px;
-  margin-bottom: 10px;
-}
-.fcard-domain {
-  font-family: 'Martian Mono', monospace;
-  font-size: 10px;
-  color: var(--sky);
-  margin-bottom: 5px;
-  word-break: break-all;
-  line-height: 1.3;
-}
-.fcard-desc {
-  font-family: 'Spectral', serif;
-  font-style: italic;
-  font-size: 11.5px;
-  color: var(--warm);
-  line-height: 1.5;
-  opacity: 0.85;
-}
-.fcard-renew {
-  margin-top: 8px;
-  font-family: 'Martian Mono', monospace;
-  font-size: 8px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-/* ── FOOTER TOOLBAR ── */
-.toolbar {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 54px;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: 0 14px;
-  background: rgba(20,18,16,0.92);
-  backdrop-filter: blur(20px) saturate(1.5);
-  border: 1px solid var(--border);
-  border-bottom: none;
-  border-radius: 14px 14px 0 0;
-  z-index: 300;
-  box-shadow: 0 -4px 40px rgba(0,0,0,0.5);
-}
-
-.tb-item {
-  width: 46px;
-  height: 46px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  cursor: pointer;
-  border-radius: 10px;
-  transition: all 0.2s cubic-bezier(.34,1.56,.64,1);
-  position: relative;
-}
-.tb-item:hover {
-  background: rgba(255,255,255,0.06);
-  transform: translateY(-4px) scale(1.08);
-}
-.tb-item.active { background: rgba(200,241,53,0.1); }
-.tb-item svg { flex-shrink: 0; }
-.tb-label {
-  font-family: 'Martian Mono', monospace;
-  font-size: 7px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.tb-item.active .tb-label { color: var(--lime); }
-.tb-badge {
-  position: absolute;
-  top: 5px; right: 5px;
-  min-width: 13px; height: 13px;
-  background: var(--coral);
-  border-radius: 7px;
-  font-family: 'Martian Mono', monospace;
-  font-size: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: 700;
-  padding: 0 3px;
-}
-.tb-divider {
-  width: 1px;
-  height: 26px;
-  background: var(--border);
-  margin: 0 6px;
-  flex-shrink: 0;
-}
-.tb-dot {
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px; height: 4px;
-  background: var(--lime);
-  border-radius: 50%;
-  box-shadow: 0 0 4px var(--lime);
-}
-
-/* ── TOOLTIP ── */
-.tooltip {
-  position: fixed;
-  background: var(--s3);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 6px 10px;
-  font-family: 'Martian Mono', monospace;
-  font-size: 9px;
-  color: var(--text);
-  pointer-events: none;
-  z-index: 999;
-  opacity: 0;
-  transition: opacity 0.15s;
-  max-width: 200px;
-  line-height: 1.5;
-}
-.tooltip.show { opacity: 1; }
-
-/* ── NOTIFICATION PANEL ── */
-.notif-panel {
-  position: absolute;
-  top: 32px; right: 12px;
-  width: 240px;
-  background: var(--s2);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 14px;
-  z-index: 600;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.7);
-  display: none;
-  animation: slidedown 0.2s ease;
-}
-@keyframes slidedown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.notif-panel.show { display: block; }
-.notif-title {
-  font-family: 'Martian Mono', monospace;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  margin-bottom: 10px;
-}
-.notif-item {
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 11px;
-  color: var(--warm);
-  line-height: 1.5;
-  font-family: 'Spectral', serif;
-  font-style: italic;
-}
-.notif-item:last-child { border-bottom: none; }
-.notif-item strong {
-  display: block;
-  font-style: normal;
-  font-family: 'Martian Mono', monospace;
-  font-size: 9px;
-  color: var(--coral);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 2px;
-}
-
-/* ── SEARCH OVERLAY ── */
-.search-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(12,11,9,0.85);
-  backdrop-filter: blur(10px);
-  z-index: 700;
-  display: none;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 80px;
-}
-.search-overlay.show { display: flex; }
-.search-box {
-  width: 540px;
-  background: var(--s2);
-  border: 1px solid var(--lime);
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(200,241,53,0.1);
-  animation: searchin 0.2s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes searchin {
-  from { opacity: 0; transform: translateY(-20px) scale(0.96); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-.search-input-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border);
-}
-.search-input-row svg { flex-shrink: 0; opacity: 0.5; }
-.search-input {
-  flex: 1;
-  background: none;
-  border: none;
-  outline: none;
-  font-family: 'Syne', sans-serif;
-  font-size: 16px;
-  color: var(--text);
-}
-.search-input::placeholder { color: var(--muted); }
-.search-results {
-  padding: 10px 0;
-  max-height: 300px;
-  overflow-y: auto;
-}
-.search-result-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 16px;
-  cursor: pointer;
-  transition: background 0.1s;
-}
-.search-result-item:hover { background: var(--s3); }
-.sr-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.sr-domain {
-  font-family: 'Martian Mono', monospace;
-  font-size: 10.5px;
-  color: var(--sky);
-  flex: 1;
-}
-.sr-cat {
-  font-family: 'Martian Mono', monospace;
-  font-size: 8px;
-  text-transform: uppercase;
-  color: var(--muted);
-  letter-spacing: 0.06em;
-}
-.search-hint {
-  padding: 8px 16px;
-  font-family: 'Martian Mono', monospace;
-  font-size: 8px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  border-top: 1px solid var(--border);
-  display: flex;
-  gap: 16px;
-}
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    .article { padding: 32px 20px 80px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- MENUBAR -->
-<div class="menubar">
-  <span class="logo">penny wrenn</span>
-  <span class="menu-item">File</span>
-  <span class="menu-item">View</span>
-  <span class="menu-item">Projects</span>
-  <span class="menu-item">Network</span>
-  <span class="menu-item">Help</span>
-  <div class="right">
-    <div class="wifi-dot"></div>
-    <span class="clock" id="clock">12:10 PM</span>
-  </div>
+<div class="masthead">
+  <div class="masthead-brand">Penny Wrenn</div>
+  <div class="masthead-label">pennywrenn.media</div>
 </div>
 
-<!-- DESKTOP -->
-<div class="desktop">
+<div class="read-meta">
+  <span class="read-tag">Essay</span>
+  <span class="read-tag">AI × Authorship</span>
+  <span class="read-time">20-minute read · ~5,200 words</span>
+</div>
 
-  <!-- VIEW SWITCHER -->
-  <div class="view-switcher">
-    <button class="vbtn active" onclick="switchView('jigsaw')">Jigsaw</button>
-    <button class="vbtn" onclick="switchView('jumble')">Jumble</button>
-    <button class="vbtn" onclick="switchView('facts')">Just the Facts</button>
-  </div>
+<article class="article">
 
-  <!-- ════ VIEW: JIGSAW ════ -->
-  <div id="view-jigsaw">
-    <div class="jigsaw-bg"></div>
+  <h1>I Scored <span class="score">21 Out of 24</span>.<br>The One Wrong Answer<br>Was the Most Important One.</h1>
 
-    <!-- Cluster: Penny Wrenn (anchor) -->
-    <div class="macro-cluster c-penny" style="left:38%; top:38%; transform:translate(-50%,-50%)">
-      <div class="cluster-label">pennywrenn · anchor</div>
-      <div class="pieces-wrap">
-        <div class="piece wide" style="background:#c8b898;color:#1c1a16;">pennywrenn.net</div>
-        <div class="piece" style="background:#b8a880;color:#1c1a16;">pennywrenn.org</div>
-        <div class="piece" style="background:#d0c0a0;color:#1c1a16;">pennywrenn.info</div>
-        <div class="piece" style="background:#b0a078;color:#1c1a16;">pennywrenn.media</div>
-        <div class="piece" style="background:#c0b088;color:#1c1a16;">pennywrenn.blog</div>
-        <div class="piece" style="background:#a89870;color:#1c1a16;">penrings.dad</div>
+  <p class="deck">A stress test, a wrong answer, and the market hiding inside the conversation I was already having — with my husband, with my corpus, with the version of AI that was finally ready to keep up.</p>
+
+  <div class="byline">By <span>Penny Wrenn</span> · pennywrenn.media · March 2026</div>
+
+  <p class="dropcap">There is a stress test. I built it — from 103,000 words of conversations I've had, in writing, with myself and AI over the course of three years, all centered on a man named Scott Galloway. The test runs your idea through eight dimensions of analytical scrutiny. Market size. Demographic tailwind. Differentiation. Margin. Distribution. Capital efficiency. Narrative. Founder-market fit. Twenty-four points possible. The verdict at twenty or above: <em>Prof G would take this call.</em></p>
+
+  <p>I scored twenty-one.</p>
+
+  <p>The one dimension I got wrong — the one point range I marked Under $100M instead of the number I actually believe — is the single most important thing I can tell you about the market I'm building for. Because the gap between what I answered and what I know to be true is the whole argument. It's the reason this essay exists. It's the reason pennywrenn.media exists. And it's the reason I'm convinced that the next wave of business building is going to be led by people who, until right now, didn't know they already had everything they needed to start.</p>
+
+  <p>Let me show you the score first. Then I'll tell you about the one wrong answer. Then I'll tell you what I've decided to do about it — all four things Galloway would tell me to do, in the twenty-minute longread form that the idea actually deserves.</p>
+
+  <div class="score-card">
+    <div class="score-card-title">My Prof G Stress Test — Full Breakdown</div>
+    <div class="score-grid">
+      <div class="score-item">
+        <div class="score-dim">Market Size</div>
+        <div class="score-answer miss">Under $100M — the wrong answer ↗</div>
       </div>
-      <div class="macro-tag">macro · identity system</div>
-    </div>
-
-    <!-- Cluster: Dementia -->
-    <div class="macro-cluster c-dementia" style="left:15%; top:30%">
-      <div class="cluster-label">dementia · advocacy</div>
-      <div class="pieces-wrap" style="max-width:220px">
-        <div class="piece wide">dementiacare.network</div>
-        <div class="piece">dementia.chat</div>
-        <div class="piece">dementia.partners</div>
-        <div class="piece">dementia.exchange</div>
-        <div class="piece wide">dementiadesrvesbetter.com</div>
-        <div class="piece" style="font-size:7px">…deservesbetter.org</div>
-        <div class="piece" style="font-size:7px">…deservesbetter.health</div>
+      <div class="score-item">
+        <div class="score-dim">Demographic Tailwind</div>
+        <div class="score-answer hit">Massive wave: Black wealth transfer, Gen Z, women 40+</div>
       </div>
-      <div class="macro-tag">macro · care ecosystem</div>
-    </div>
-
-    <!-- Cluster: Power2026 -->
-    <div class="macro-cluster c-power" style="right:12%; top:20%">
-      <div class="cluster-label">power2026 · civic</div>
-      <div class="pieces-wrap" style="max-width:200px">
-        <div class="piece wide">power2026.com</div>
-        <div class="piece">power2026.us</div>
-        <div class="piece">power2026.org</div>
-        <div class="piece">power2026.shop</div>
-        <div class="piece">power2026.press</div>
-        <div class="piece">power2026.nyt</div>
+      <div class="score-item">
+        <div class="score-dim">Differentiation</div>
+        <div class="score-answer hit">Proprietary IP — the corpus, the fingerprint, the archive</div>
       </div>
-      <div class="macro-tag">macro · movement suite</div>
-    </div>
-
-    <!-- Cluster: SearchJourney -->
-    <div class="macro-cluster c-search" style="left:18%; bottom:22%">
-      <div class="cluster-label">search journey · discovery</div>
-      <div class="pieces-wrap" style="max-width:180px">
-        <div class="piece wide">searchjourney.org</div>
-        <div class="piece">searchjourney.media</div>
+      <div class="score-item">
+        <div class="score-dim">Margin Profile</div>
+        <div class="score-answer hit">70%+ — media, IP licensing, software</div>
       </div>
-      <div class="macro-tag">macro · wayfinding</div>
-    </div>
-
-    <!-- Cluster: 101FreeidEAS -->
-    <div class="macro-cluster c-ideas" style="right:14%; bottom:28%">
-      <div class="cluster-label">101 free ideas · open source</div>
-      <div class="pieces-wrap" style="max-width:200px">
-        <div class="piece wide">101freeideas.com</div>
-        <div class="piece">101freeideas.directory</div>
-        <div class="piece">101freeideas.ai</div>
+      <div class="score-item">
+        <div class="score-dim">Distribution</div>
+        <div class="score-answer hit">Existing platform + institutional press record</div>
       </div>
-      <div class="macro-tag">macro · ideabank</div>
-    </div>
-
-    <!-- Cluster: Midlife -->
-    <div class="macro-cluster c-midlife" style="left:52%; bottom:18%">
-      <div class="cluster-label">midlife · media</div>
-      <div class="pieces-wrap" style="max-width:180px">
-        <div class="piece wide">midlife.media</div>
-        <div class="piece">midlife.work</div>
-        <div class="piece wide">worriedaboutthewrongthing.com</div>
+      <div class="score-item">
+        <div class="score-dim">Capital Efficiency</div>
+        <div class="score-answer hit">Bootstrappable — the corpus already exists</div>
       </div>
-      <div class="macro-tag">macro · editorial</div>
+      <div class="score-item">
+        <div class="score-dim">Narrative</div>
+        <div class="score-answer hit">One sentence. The AI is the word processor. I'm the writer.</div>
+      </div>
+      <div class="score-item">
+        <div class="score-dim">Founder–Market Fit</div>
+        <div class="score-answer hit">Documented lived experience + 20+ years pre-AI practice</div>
+      </div>
     </div>
-
-    <!-- connector hints -->
-    <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1" id="connectors">
-      <!-- drawn by JS -->
-    </svg>
-  </div>
-
-  <!-- ════ VIEW: JUMBLE ════ -->
-  <div id="view-jumble">
-    <div class="jumble-bg"></div>
-    <div class="jumble-field" id="jumble-field"></div>
-  </div>
-
-  <!-- ════ VIEW: FACTS ════ -->
-  <div id="view-facts">
-    <div class="facts-top">
-      <h1><span>penny</span>wrenn.net</h1>
-      <span class="tagline">// umbrella · 36 domains · 6 clusters</span>
-    </div>
-    <div class="facts-body">
-      <nav class="facts-nav" id="facts-nav"></nav>
-      <div class="facts-content" id="facts-content"></div>
+    <div class="score-total">
+      <span class="score-total-label">Total Score</span>
+      <span class="score-total-num">21 / 24</span>
     </div>
   </div>
 
-  <!-- TOOLBAR -->
-  <div class="toolbar">
-    <!-- Search -->
-    <div class="tb-item active" id="tb-search" title="Search" onclick="toggleSearch()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.8">
-        <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-      <span class="tb-label">Search</span>
-      <div class="tb-dot"></div>
+  <p>Seven threes and one zero. The zero on Market Size. The dimension that is supposed to be the first door — the one that, if the number doesn't clear a billion, the rest of the conversation is a courtesy.</p>
+
+  <p>I know the market is not under one hundred million dollars. I know this with the kind of certainty that lives below argument, in the body, in the part of you that has been thinking about something for a long time. What I don't yet have is the clean language for the market I'm actually addressing. That's not the same as not knowing the market exists. It means the market hasn't been properly named yet. And that's not a failure condition — that's an opportunity.</p>
+
+  <p>Markets that don't have names yet are the most valuable kind to find.</p>
+
+  <div class="section-break">
+    <span class="section-num">01 of 04</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="directive-block">
+    <div class="directive-eyebrow">Galloway's First Directive</div>
+    <p class="directive-text">"Lead with the founder-market fit story — it's the differentiator no competitor can replicate."</p>
+  </div>
+
+  <h2>The Portfolio I Didn't Know I Was Building</h2>
+
+  <p>It was a Saturday evening, maybe forty-five minutes before a dinner reservation, and my husband was watching me work. This happens sometimes — he'll come into the room I'm in and he'll be quiet in the way that means he's watching and thinking, not interrupting. I was showing him something on the screen. I don't remember exactly what — an artifact, maybe, or the dashboard of my corpus folder, the thing that tells you there are 4,263 conversations in here organized into twenty clusters covering fifteen thousand exchanges from November 2022 to March 2026.</p>
+
+  <p>He said: <em>This is your portfolio for this phase of your life. Just like you had a writing portfolio before. This is your proof. Proof that you've been working all along.</em></p>
+
+  <p>I stopped. I said: <em>I hadn't thought about it that way.</em></p>
+
+  <p>And then: <em>Oh my gosh. This is my I've-been-alive document. This is how I prove I have been working this whole time, everybody.</em></p>
+
+  <p>That moment is the founder-market fit story. Not the press clippings — though there are those. Not the bylines — Esquire, Essence, O The Oprah Magazine, Glamour, Marie Claire, Fast Company. Not the television. Not the one-woman show. Not the twenty-plus years of freelance journalism in an industry that ate itself slowly and then all at once. Those things matter. But none of them are the founder-market fit story that no competitor can replicate.</p>
+
+  <p>The founder-market fit story is this: I am a former professional writer who became an early adopter of AI-assisted thinking in November of 2022 — weeks after ChatGPT launched — and I never stopped. I kept every session. I built the archive. I coined the term <em>AI-Processed vs. AI-Generated</em> in May of 2024, before it became the framing everyone now reaches for. I have been operating at the intersection of natural language, machine intelligence, and intellectual IP for three years, in documented, dateable exchanges, with a fingerprint in that archive that is mine and no one else's.</p>
+
+  <p>And I am not the market. I am the <em>proof of concept</em> for the market.</p>
+
+  <p>The market is the woman who comes into the room forty-five minutes before a dinner reservation and says: <em>I know that I have been working. I know I have something. I just don't have the container yet. I don't have the portfolio page. I don't have the artifact that shows everyone what I have been building in this half-decade when I was keeping my eyes on my own paper.</em></p>
+
+  <p>That woman is not alone. She is, in fact, a demographic.</p>
+
+  <blockquote>
+    <p>"There are other women out there who have been keeping their eyes on their own paper, doing what they need, but they've also been feeling like: I've got to do different — or else I'm not going to be able to retire. I'm not going to be able to live the dream life I still believe is possible."</p>
+    <cite>— From a conversation in the corpus, March 2026</cite>
+  </blockquote>
+
+  <p>Founder-market fit is not just about credentials. It's about whether the founder has felt the problem — not read about it, not observed it from the outside, but lived it from inside the body of the person the market is built for. The corpus is my credential. But the Saturday evening conversation is my founder-market fit proof. I know what it looks like to have done the work and not yet have the infrastructure to show it. I know what it feels like to build in the dark for years and then one evening have someone else reflect back to you: <em>Oh. That's a portfolio.</em></p>
+
+  <p>I have been that person. I am building for that person. No competitor who doesn't have that history can replicate the authenticity of the claim.</p>
+
+  <p>That's the lead.</p>
+
+  <div class="section-break">
+    <span class="section-num">02 of 04</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="directive-block">
+    <div class="directive-eyebrow">Galloway's Second Directive</div>
+    <p class="directive-text">"The corpus is your credibility — cite it, date it, show it predates the conversation."</p>
+  </div>
+
+  <h2>December 16, 2022. And Everything That Comes After.</h2>
+
+  <p>Here is what I know about my own starting line: On December 16th of 2022, I mentioned ChatGPT to my niece. She had not heard of it yet. I had been using it for weeks.</p>
+
+  <p>That's the anchor date. Not because it's the most dramatic moment in the archive — it isn't. But because it establishes something that matters in an era when everyone is claiming they were there from the beginning: I have a witness. I have a timestamp. I have the receipts.</p>
+
+  <p>The corpus holds 4,263 conversations. The JSON export goes back to September of 2023, because that is the floor of what OpenAI's export tool will give you. But the archive doesn't begin at OpenAI's floor. It begins at the December 2022 conversation I mentioned to my niece, and it continues through a ChatGPT history document that was reconstructed from the 2022-2023 sessions, through screenshots, through text message records, through an Apple Notes export that captures the thinking that happened before I ever opened a chat window.</p>
+
+  <p>The Apple Notes are important. I want to linger there for a moment.</p>
+
+  <p>Before ChatGPT, before the age of large language models, before the conversation everyone is now having — I was already doing a version of what I now call Computational Authorship. I was using voice-to-text to dictate ideas into Apple Notes. I was leaving myself voice memos that were, in retrospect, early AI-assisted drafts without the AI — structured thinking in natural language, captured and revisited and revised. I was building something, without a name for what I was building, using tools that were already available to everyone who had an iPhone.</p>
+
+  <p>That is the technology moat hiding in plain sight.</p>
+
+  <p>Apple Notes. Voice Memos. Reminders. Transcripts. Text message threads. Every single person reading this right now — every person who has owned an iPhone for the last five years — has a version of a corpus. They have a record of what they were thinking, when they were thinking it, in their own language, unfiltered by what they thought they were supposed to be working on.</p>
+
+  <p>The iPhone has been a cognitive capture device for fifteen years. It has been recording how we think since before most people knew they were thinking for an audience. The difference between me and the market I'm building for is that I went back and looked at mine. I organized it. I ran it through a processing engine sophisticated enough to reflect it back to me at scale. And I called it what it is: a body of work.</p>
+
+  <p>Citing the corpus, dating the corpus, and showing it predates the conversation is not just a credibility move. It is the demonstration of the method itself. Every time I say <em>December 16th, 2022</em> — every time I say <em>fifteen thousand exchanges, twenty clusters, 103,000 words just in the Scott Galloway thread</em> — I am showing the person in my target market what is possible when you treat your own archive as an asset rather than a digital attic.</p>
+
+  <p>The HeLa argument, for those who know it: Henrietta Lacks's cells were extracted and commercialized without her knowledge or compensation. They became one of the most valuable biological assets in modern medical history. The question at the center of the AI age is the same question, made newly urgent: whose intellectual cells are being extracted, processed, and commercialized — and is the person they came from in the room when the deal is made?</p>
+
+  <p>I am in the room. I am making the deal myself. And I have the archive to prove the lineage.</p>
+
+  <p>That is what dating the corpus means. It means the origin story is verifiable. It means the claim to authorship is not retrospective — it is documented in real time, session by session, from the weeks after ChatGPT launched to this morning's conversation. The corpus is not content. The corpus is evidence.</p>
+
+  <div class="section-break">
+    <span class="section-num">03 of 04</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="directive-block">
+    <div class="directive-eyebrow">Galloway's Third Directive</div>
+    <p class="directive-text">"Build the proof artifact first, then pitch. Don't ask for belief; demonstrate it."</p>
+  </div>
+
+  <h2>The Stress Test Is the Proof. This Essay Is the Proof. Everything Is the Proof.</h2>
+
+  <p>The stress test I described at the top of this essay — the one that scored me twenty-one out of twenty-four — exists because Galloway's third directive is the one that forces you out of theory and into production. You cannot ask someone to believe in an idea. You can only show them the idea functioning. Working. Demonstrating its own value in real time.</p>
+
+  <p>So I built the tool. Eight questions, Galloway's exact analytical framework, applied to any idea. Built from three years of conversations about his thinking, his frameworks, his consistency about what separates ideas that matter from ideas that don't. The tool generates a Galloway-voice response to every answer. It gives you a score. It tells you what to do next. It is, itself, the argument — not for Galloway, but for what's possible when someone with twenty-plus years of editorial intelligence and three years of documented AI practice decides to demonstrate rather than describe.</p>
+
+  <p>I also built the civic RPG. Five chapters, beat-the-clock, character selection, branching consequences for every choice. It is not a voter registration drive dressed as a game. It is a full dramatization of what civic power looks like in practice — the organizer, the donor, the candidate, the independent voter, the skeptic — each character moving through the actual decision points that real citizens face in the actual run-up to November 2026. The consequences are real. The research is real. The emotional stakes are real.</p>
+
+  <p>And before either of those: the flagship artifact. The one that opens with the number 4,263 in full-bleed display and proceeds to show you, in a CSS Grid world map sized proportionally to word count, the twenty clusters of thinking that a person accumulates when she has been generating ideas at speed for decades and finally has a processing tool that can keep up.</p>
+
+  <p>These are not content pieces. They are proof artifacts — a term I want to be precise about, because it is doing a lot of work in the operational framework I've built.</p>
+
+  <p>A proof artifact is not a sample of what you can do. It is a demonstration that the thing works. There's a difference. A sample says: <em>here is an example of what the finished product might look like.</em> A proof artifact says: <em>here is the finished product, and it is already doing what it was designed to do, and you have just experienced it, and so belief is no longer the ask — only decision is.</em></p>
+
+  <p>The proof artifact strategy is not unique to me. It is the correct strategy for anyone who has been in a room pitching ideas to people with money and found themselves talking faster and faster, adding more context, losing the thread of the original argument while trying to hold the listener's attention. That acceleration is the tell. It means you are asking for belief. The moment you're asking for belief, you've already lost the most efficient version of the pitch.</p>
+
+  <p>The efficient pitch is: <em>Here. Try it. See for yourself. Now — do you want more of this?</em></p>
+
+  <p>I scored zero on Market Size in my own stress test because I have not yet built the proof artifact for the market argument. I can describe the market. I can point at the demographic data. I can name the Apple ecosystem, the Voice Memos, the Notes app, the transcripts that every iPhone user has accumulated in the years since the smartphone became the primary cognitive capture device in most American lives. But I haven't yet shown the person in that market what becomes possible when she points an AI at her own archive and discovers that what she thought was digital clutter is actually a body of work.</p>
+
+  <p>That proof artifact is the next thing I'm building. And it will change the answer on Market Size from zero to three.</p>
+
+  <div class="section-break">
+    <span class="section-num">04 of 04</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="directive-block">
+    <div class="directive-eyebrow">Galloway's Fourth Directive</div>
+    <p class="directive-text">"The distribution play is the pitch. Who already has your audience? Partner or get licensed."</p>
+  </div>
+
+  <h2>The Market That AI Forgot to Market To</h2>
+
+  <p>Here is the thing I said out loud in a conversation that is now part of the corpus, the thing I want to make sure does not get lost in the intellectual architecture of everything else I've been building:</p>
+
+  <blockquote>
+    <p>"What [AI] has not been able to do is market itself as a transformational technology for real people who want to make a stratospheric move across the socioeconomic satellite range. There are people who still want to meet their highest earning potential, who are still willing to work — but who need their hard work to look different in this stage."</p>
+    <cite>— From the corpus, March 2026</cite>
+  </blockquote>
+
+  <p>This is the market. I want to name it properly, because the proper name is the distribution strategy.</p>
+
+  <p>The dreamer-doer. The designer-doer prosumer. The person who is not a professional developer, not a venture-backed founder, not a tech industry insider — but who has been building something in their head, and on their phone, and in their voice memos, and in the margins of their actual life, for years. Who has ideas that are better than the ideas of people who are paid to have ideas, but who hasn't had a processing tool sophisticated enough to take those ideas from raw thinking to structured artifact to published, productized, pitched, platformed, profitable output.</p>
+
+  <p>AI has marketed itself to three audiences. The enterprise buyer. The developer. The curious early adopter who wants to see what the chatbot can do.</p>
+
+  <p>It has not — not seriously, not with a real product and a real framework and a real documented proof of concept — marketed itself to the person who is sitting in the Apple ecosystem right now with fifteen thousand notes in her Notes app, forty-seven unlistened voice memos, a text thread with her sister that contains the best thinking she's done about her own career, and no idea that any of that constitutes an asset.</p>
+
+  <p>That person exists at scale. I know she exists because I am her. I know she exists because my husband looked at my work and said <em>this is a portfolio</em> and I had never thought of it as a portfolio before that moment, even though I had been building it deliberately for three years. I know she exists because the conversation I recorded in my corpus about what AI can do for <em>the rest of us</em> — the rest of us who are not being addressed by the enterprise pitch or the developer pitch or the thought leadership keynote at the AI conference — is not an edge case. It is the center of the market that nobody is standing in yet.</p>
+
+  <p>And I have the unfair distribution advantage Galloway is asking about. I know who already has this audience. It is every publication, platform, program, and institution that serves women in their forties and fifties who are navigating the second act of their professional lives. It is every media company that has a Black female readership and is watching that readership's economic power compound as the wealth transfer that sociologists have been projecting for a decade begins to arrive. It is every executive education program, every leadership development cohort, every women's conference where the speaker on day two is always the one who says: <em>you have more than you think you have.</em></p>
+
+  <p>The licensing play, the partnership play, the distribution play — it runs through those institutions. Not because they're the only path. Because they're the shortest path to the person who needs to discover that she already has a corpus. That she has been generating intellectual capital at speed for years. That the Apple ecosystem she's been living inside of is a cognitive archive that, pointed at the right processing tool, with the right framework, becomes a body of work.</p>
+
+  <p>This is what pennywrenn.media is. It is the proof of concept that the dreamer-doer prosumer can go from archive to artifact in a single working session. It is the demonstration of the method — not the description of the method. It is the portfolio page for a market that has been building portfolios without knowing it, and it is built by the person who did the same thing first, earlier, and on the record.</p>
+
+  <hr>
+
+  <h2>The Correction: Market Size Is Not Under $100M</h2>
+
+  <p>I want to close by answering the question I got wrong.</p>
+
+  <p>The market is not under one hundred million dollars.</p>
+
+  <p>Here is what the market actually is:</p>
+
+  <div class="market-box">
+    <div class="market-box-title">The Dreamer-Doer TAM — A Revised Answer</div>
+    <div class="market-item">
+      <span class="market-item-label">Apple ecosystem users in the US alone (iPhone active users)</span>
+      <span class="market-item-size">~160M</span>
     </div>
-
-    <div class="tb-divider"></div>
-
-    <!-- Inbox -->
-    <div class="tb-item" id="tb-inbox" title="Inbox" onclick="toggleNotif()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--warm)" stroke-width="1.8">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-        <polyline points="22,6 12,13 2,6"/>
-      </svg>
-      <span class="tb-label">Inbox</span>
-      <div class="tb-badge">3</div>
+    <div class="market-item">
+      <span class="market-item-label">Adults 35–55 in the US who describe themselves as "working on something" outside their primary job</span>
+      <span class="market-item-size">~42M</span>
     </div>
-
-    <!-- Modules / AppStore-esque -->
-    <div class="tb-item" title="Modules">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--sky)" stroke-width="1.8">
-        <rect x="2" y="3" width="9" height="9" rx="1.5"/>
-        <rect x="13" y="3" width="9" height="9" rx="1.5"/>
-        <rect x="2" y="14" width="9" height="9" rx="1.5"/>
-        <rect x="13" y="14" width="9" height="9" rx="1.5"/>
-      </svg>
-      <span class="tb-label">Modules</span>
+    <div class="market-item">
+      <span class="market-item-label">Black women in the US with household income above $75K — the demographic intersection at the center of this market</span>
+      <span class="market-item-size">~4.2M</span>
     </div>
-
-    <div class="tb-divider"></div>
-
-    <!-- Projects -->
-    <div class="tb-item" title="Projects">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--mauve)" stroke-width="1.8">
-        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-      </svg>
-      <span class="tb-label">Projects</span>
+    <div class="market-item">
+      <span class="market-item-label">The creator economy addressable market (people who want to build something from their intellectual capital)</span>
+      <span class="market-item-size">~$250B</span>
     </div>
-
-    <!-- Signal / Subscribe -->
-    <div class="tb-item" title="Subscribe">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3-8.59A2 2 0 0 1 3.17 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/>
-      </svg>
-      <span class="tb-label">Signal</span>
-    </div>
-
-    <div class="tb-divider"></div>
-
-    <!-- Settings -->
-    <div class="tb-item" title="Settings">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.8">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-      </svg>
-      <span class="tb-label">Config</span>
+    <div class="market-item">
+      <span class="market-item-label">The "AI for the rest of us" gap — people who have not yet been addressed by existing AI products</span>
+      <span class="market-item-size">Unclaimed</span>
     </div>
   </div>
 
-  <!-- NOTIFICATION PANEL -->
-  <div class="notif-panel" id="notif-panel">
-    <div class="notif-title">// recent signals</div>
-    <div class="notif-item"><strong>renewal · 31 days</strong> pennywrenn.net + pennywrenn.org expire soon — auto-renew queued</div>
-    <div class="notif-item"><strong>new subscriber</strong> 101freeideas.ai — 1 new module download request</div>
-    <div class="notif-item"><strong>power2026 · update</strong> searchjourney.media published a new thread</div>
+  <p>The reason I answered Under $100M is that I was thinking about my own revenue potential in isolation — the Penny Wrenn, solopreneur, IP-licensing, published-and-pitching-for-herself market. That number is real and it is not under one hundred million dollars either. But it is the wrong frame. The correct frame is not: how much can I, Penny Wrenn, earn from this body of work?</p>
+
+  <p>The correct frame is: how many people are in the market I have already demonstrated is real, and what does it cost them when they don't have the method, the framework, or the proof of concept they need to go from archive to artifact?</p>
+
+  <p>That market is enormous. The cost of not having it is enormous. Every voice memo that was never processed. Every Apple Notes document that was never turned into a pitch. Every text thread that contained a brilliant insight that stayed in the thread and never became a product. Every woman who has been keeping her eyes on her own paper for five years and doesn't yet have the infrastructure to show what she's been building — the lost earning potential of that gap, multiplied across the demographic, is an order of magnitude larger than the number I put in the tool.</p>
+
+  <p>I knew this. I said it out loud in a conversation that is now in the corpus. The right answer was already in my mouth. I just hadn't yet made it legible in the language the stress test required.</p>
+
+  <p>Making it legible is the work. And I have already begun.</p>
+
+  <hr>
+
+  <div class="closer">
+    <div class="closer-label">On pennywrenn.media</div>
+    <p>The four things Galloway would tell me to do — lead with founder-market fit, cite the corpus, build proof artifacts first, find the distribution partners who already have the audience — are not a to-do list. They are a description of what is already happening. The stress test exists. This essay exists. The corpus exists and is dated and documented and predates the conversation everyone is now having. The distribution partners exist: every institution that serves the woman I am building for already knows she is there. They just don't yet have a method to show her what she has.</p>
+    <p>I am the method.</p>
+    <p>The market is not under one hundred million dollars. The market is every person sitting in their Apple ecosystem right now who has never thought to call their notes, their voice memos, their archived thinking, their text messages, their transcripts — <em>a portfolio.</em></p>
+    <p>I am going to show them that it is.</p>
+    <p>That is the pitch. That is the platform. That is the proof artifact still being built. And twenty-one out of twenty-four — with the one wrong answer named, corrected, and turned into the thesis — is exactly where the story has to start.</p>
   </div>
 
-  <!-- SEARCH OVERLAY -->
-  <div class="search-overlay" id="search-overlay" onclick="closeSearch(event)">
-    <div class="search-box" onclick="event.stopPropagation()">
-      <div class="search-input-row">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input class="search-input" id="search-input" placeholder="Search all domains, projects, ideas…" oninput="filterSearch(this.value)" autofocus>
-      </div>
-      <div class="search-results" id="search-results"></div>
-      <div class="search-hint">
-        <span>↑↓ navigate</span>
-        <span>↵ open</span>
-        <span>esc close</span>
-      </div>
-    </div>
-  </div>
+</article>
 
-</div><!-- /desktop -->
+<div class="footer">
+  <span>Penny Wrenn</span> · pennywrenn.media
+  <span>Built from the corpus · 4,263 conversations · 2022–2026</span>
+</div>
 
-<div class="tooltip" id="tooltip"></div>
-
-<script>
-// ── DATA ──
-const clusters = [
-  {
-    id: 'identity', label: 'Identity System', color: '#c8b898',
-    domains: [
-      { domain: 'pennywrenn.net', desc: 'Umbrella · full domain protection', renew: 'May 30, 2026' },
-      { domain: 'pennywrenn.org', desc: 'Civic & advocacy home', renew: 'May 30, 2026' },
-      { domain: 'pennywrenn.info', desc: 'Informational archive', renew: 'May 30, 2026' },
-      { domain: 'pennywrenn.media', desc: 'Media & publishing arm', renew: 'Apr 30, 2026' },
-      { domain: 'pennywrenn.blog', desc: 'Personal editorial voice', renew: 'Apr 30, 2026' },
-      { domain: 'penrings.dad', desc: 'Personal · family space', renew: 'Apr 30, 2026' },
-    ]
-  },
-  {
-    id: 'dementia', label: 'Dementia Advocacy', color: '#d4a8ff',
-    domains: [
-      { domain: 'dementiacare.network', desc: 'Care coordination hub', renew: 'Apr 30, 2026' },
-      { domain: 'dementia.chat', desc: 'Community conversation space', renew: 'Apr 30, 2026' },
-      { domain: 'dementia.partners', desc: 'Partner & coalition directory', renew: 'Apr 30, 2026' },
-      { domain: 'dementia.exchange', desc: 'Resource exchange platform', renew: 'Apr 30, 2026' },
-      { domain: 'dementiadesrvesbetter.com', desc: 'Advocacy campaign flagship', renew: 'Apr 01, 2026' },
-      { domain: 'dementiadesrvesbetter.healthcare', desc: 'Healthcare-sector campaign', renew: 'Apr 01, 2026' },
-      { domain: 'dementiadesrvesbetter.org', desc: 'Nonprofit campaign extension', renew: 'Apr 30, 2026' },
-    ]
-  },
-  {
-    id: 'power', label: 'Power 2026', color: '#ff5c3a',
-    domains: [
-      { domain: 'power2026.com', desc: 'Civic movement · main', renew: 'Jul 4, 2026' },
-      { domain: 'power2026.us', desc: 'U.S. civic activation', renew: 'Jul 4, 2026' },
-      { domain: 'power2026.org', desc: 'Org & coalition home', renew: 'Jul 4, 2026' },
-      { domain: 'power2026.shop', desc: 'Merch & supporter store', renew: 'Jul 5, 2026' },
-      { domain: 'power2026.press', desc: 'Press & media relations', renew: 'Jul 5, 2026' },
-      { domain: 'power2026.nyt', desc: 'Editorial presence', renew: 'Jul 5, 2026' },
-    ]
-  },
-  {
-    id: 'search', label: 'Search Journey', color: '#5ecfee',
-    domains: [
-      { domain: 'searchjourney.org', desc: 'Wayfinding · discovery platform', renew: 'Apr 30, 2026' },
-      { domain: 'searchjourney.media', desc: 'Editorial & story publishing', renew: 'Apr 30, 2026' },
-    ]
-  },
-  {
-    id: 'ideas', label: '101 Free Ideas', color: '#f0c842',
-    domains: [
-      { domain: '101freeideas.com', desc: 'Open-source idea library', renew: 'Dec 5, 2026' },
-      { domain: '101freeideas.directory', desc: 'Searchable idea index', renew: 'Dec 5, 2026' },
-      { domain: '101freeideas.ai', desc: 'AI-assisted idea generation', renew: 'Dec 5, 2026' },
-    ]
-  },
-  {
-    id: 'midlife', label: 'Midlife Media', color: '#c8f135',
-    domains: [
-      { domain: 'midlife.media', desc: 'Media brand for the midlife moment', renew: 'Apr 30, 2026' },
-      { domain: 'midlife.work', desc: 'Career & purpose reinvention', renew: 'Apr 30, 2026' },
-      { domain: 'worriedaboutthewrongthing.com', desc: 'Reframe-focused editorial', renew: 'Apr 29, 2026' },
-    ]
-  },
-];
-
-// ── CLOCK ──
-function updateClock() {
-  const now = new Date();
-  document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'});
-}
-updateClock();
-setInterval(updateClock, 10000);
-
-// ── VIEW SWITCHING ──
-function switchView(name) {
-  document.querySelectorAll('.vbtn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase().includes(name.split('')[0])));
-  document.querySelectorAll('[id^="view-"]').forEach(v => {
-    v.style.display = 'none';
-    v.style.setProperty('display','none');
-  });
-  const target = document.getElementById('view-' + name);
-  target.style.display = name === 'facts' ? 'flex' : 'block';
-
-  // fix button active state properly
-  document.querySelectorAll('.vbtn').forEach(b => {
-    b.classList.remove('active');
-    if ((name === 'jigsaw' && b.textContent === 'Jigsaw') ||
-        (name === 'jumble' && b.textContent === 'Jumble') ||
-        (name === 'facts' && b.textContent === 'Just the Facts')) {
-      b.classList.add('active');
-    }
-  });
-
-  if (name === 'jumble') buildJumble();
-  if (name === 'facts') buildFacts();
-}
-
-// ── JIGSAW drag (simple) ──
-document.querySelectorAll('.macro-cluster').forEach(el => {
-  let dx, dy, dragging = false;
-  el.addEventListener('mousedown', e => {
-    dragging = true;
-    const r = el.getBoundingClientRect();
-    dx = e.clientX - r.left;
-    dy = e.clientY - r.top;
-    el.style.zIndex = 50;
-    e.preventDefault();
-  });
-  document.addEventListener('mousemove', e => {
-    if (!dragging) return;
-    const parent = el.parentElement.getBoundingClientRect();
-    el.style.left = (e.clientX - parent.left - dx) + 'px';
-    el.style.top = (e.clientY - parent.top - dy) + 'px';
-    el.style.transform = 'none';
-  });
-  document.addEventListener('mouseup', () => { dragging = false; el.style.zIndex = ''; });
-});
-
-// ── JUMBLE BUILD ──
-function buildJumble() {
-  const field = document.getElementById('jumble-field');
-  field.innerHTML = '';
-  const allDomains = clusters.flatMap(c => c.domains.map(d => ({...d, color: c.color, clabel: c.label})));
-  // shuffle
-  for (let i = allDomains.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [allDomains[i], allDomains[j]] = [allDomains[j], allDomains[i]];
-  }
-
-  const W = field.parentElement.offsetWidth - 200;
-  const H = field.parentElement.offsetHeight - 150;
-
-  allDomains.forEach((d, i) => {
-    const card = document.createElement('div');
-    card.className = 'jcard';
-    const rot = (Math.random() - 0.5) * 6;
-    card.style.setProperty('--r', rot + 'deg');
-    card.style.transform = `rotate(${rot}deg)`;
-    card.style.left = (20 + Math.random() * W) + 'px';
-    card.style.top = (20 + Math.random() * H) + 'px';
-    card.style.animationDelay = (i * 0.04) + 's';
-    card.style.zIndex = i;
-
-    card.innerHTML = `
-      <div class="jcard-line" style="background:${d.color}"></div>
-      <div class="jcard-domain" style="color:${d.color}">${d.domain}</div>
-      <div class="jcard-desc">${d.desc}</div>
-      <div class="jcard-tag" style="background:${d.color}">${d.clabel}</div>
-    `;
-
-    // drag
-    let dx2, dy2, drag2 = false;
-    card.addEventListener('mousedown', e => {
-      drag2 = true;
-      const r = card.getBoundingClientRect();
-      dx2 = e.clientX - r.left;
-      dy2 = e.clientY - r.top;
-      card.style.zIndex = 100;
-      card.style.transform = `rotate(0deg) scale(1.03)`;
-      e.preventDefault();
-    });
-    document.addEventListener('mousemove', e => {
-      if (!drag2) return;
-      const pr = field.getBoundingClientRect();
-      card.style.left = (e.clientX - pr.left - dx2) + 'px';
-      card.style.top = (e.clientY - pr.top - dy2) + 'px';
-    });
-    document.addEventListener('mouseup', () => {
-      if (drag2) { drag2 = false; card.style.zIndex = i; card.style.transform = `rotate(${rot}deg)`; }
-    });
-
-    field.appendChild(card);
-  });
-}
-
-// ── FACTS BUILD ──
-function buildFacts() {
-  const nav = document.getElementById('facts-nav');
-  const content = document.getElementById('facts-content');
-
-  nav.innerHTML = '';
-  clusters.forEach((c, i) => {
-    const group = document.createElement('div');
-    group.className = 'nav-group';
-    const label = document.createElement('div');
-    label.className = 'nav-group-label';
-    label.textContent = `// ${c.id}`;
-    group.appendChild(label);
-    c.domains.forEach(d => {
-      const item = document.createElement('div');
-      item.className = 'nav-item' + (i === 0 ? ' active' : '');
-      item.innerHTML = `<div class="nav-swatch" style="background:${c.color}"></div>${d.domain}`;
-      item.onclick = () => {
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        item.classList.add('active');
-        showCluster(c);
-      };
-      group.appendChild(item);
-    });
-    nav.appendChild(group);
-  });
-
-  showCluster(clusters[0]);
-}
-
-function showCluster(c) {
-  const content = document.getElementById('facts-content');
-  content.innerHTML = `
-    <div class="facts-hero">
-      <h2>${c.label.split(' ').map((w,i) => i===0 ? `<em>${w}</em>` : w).join(' ')}</h2>
-      <p>${c.domains.length} domain${c.domains.length>1?'s':''} in this cluster — forming a networked system of presence across the web. Each domain subscribable as a module or accessible as standalone.</p>
-    </div>
-    <div class="facts-grid">
-      ${c.domains.map(d => `
-        <div class="fcard">
-          <div class="fcard-accent" style="background:${c.color}"></div>
-          <div class="fcard-domain">${d.domain}</div>
-          <div class="fcard-desc">${d.desc}</div>
-          <div class="fcard-renew">↻ ${d.renew}</div>
-        </div>
-      `).join('')}
-    </div>
-  `;
-}
-
-// ── SEARCH ──
-function toggleSearch() {
-  const o = document.getElementById('search-overlay');
-  o.classList.toggle('show');
-  if (o.classList.contains('show')) {
-    setTimeout(() => document.getElementById('search-input').focus(), 50);
-    filterSearch('');
-  }
-}
-function closeSearch(e) {
-  document.getElementById('search-overlay').classList.remove('show');
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeSearch();
-  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); toggleSearch(); }
-});
-
-function filterSearch(q) {
-  const r = document.getElementById('search-results');
-  const all = clusters.flatMap(c => c.domains.map(d => ({...d, color:c.color, cat:c.label})));
-  const matches = q ? all.filter(d => d.domain.includes(q.toLowerCase()) || d.desc.toLowerCase().includes(q.toLowerCase()) || d.cat.toLowerCase().includes(q.toLowerCase())) : all.slice(0,12);
-  r.innerHTML = matches.slice(0,12).map(d => `
-    <div class="search-result-item">
-      <div class="sr-dot" style="background:${d.color}"></div>
-      <div class="sr-domain">${d.domain}</div>
-      <div class="sr-cat">${d.cat}</div>
-    </div>
-  `).join('') || '<div style="padding:12px 16px;font-size:11px;color:var(--muted);font-family:Martian Mono,monospace;">no results</div>';
-}
-
-// ── NOTIF ──
-function toggleNotif() {
-  document.getElementById('notif-panel').classList.toggle('show');
-}
-document.addEventListener('click', e => {
-  if (!e.target.closest('#notif-panel') && !e.target.closest('#tb-inbox')) {
-    document.getElementById('notif-panel').classList.remove('show');
-  }
-});
-</script>
 </body>
 </html>
