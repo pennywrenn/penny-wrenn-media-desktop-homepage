@@ -287,29 +287,6 @@ p {
 .c-mixtape            { grid-column: span 1; }
 .c-i-am-no-one        { grid-column: span 1; background: #111118; }
 
-/* ── PRECEDENT BLOCK ── */
-.precedent-block {
-  border: 1px solid #2a2a3e;
-  padding: 48px;
-  margin: 56px 0;
-  position: relative;
-  background: #0e0e18;
-}
-
-.precedent-block::before {
-  content: 'January 29, 1951';
-  position: absolute;
-  top: -10px;
-  left: 32px;
-  background: var(--black);
-  padding: 0 12px;
-  font-family: var(--sans);
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-
 /* ── BEFORE BLOCK ── */
 .before-block {
   border: 1px solid #2a2a3e;
@@ -592,7 +569,6 @@ hr {
 }
 
 .hl { color: var(--gold-light); }
-.hl-white { color: var(--white); }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 600px) {
@@ -600,7 +576,6 @@ hr {
   .hela { padding: 40px 28px; }
   .rejection { padding: 32px 24px; }
   .before-block { padding: 32px 24px; }
-  .precedent-block { padding: 32px 24px; }
   .civic-grid { grid-template-columns: 1fr; }
   .world-map { grid-template-columns: repeat(6, 1fr); }
   .c-community-schools { grid-column: span 4; }
@@ -624,30 +599,7 @@ hr {
 
 <hr>
 
-<!-- ── SECTION 1: THE PRECEDENT ── -->
-<section>
-  <div class="section-label">The Precedent</div>
-  <h2 class="section-heading">Henrietta Lacks was 31 years old.<br>Her cells <em>never stopped working.</em></h2>
-
-  <div class="precedent-block">
-    <p style="color: var(--white-dim); font-size: 15px; margin-bottom: 16px;">Baltimore, Maryland. Johns Hopkins Hospital.</p>
-    <p style="color: var(--white); font-style: italic; font-size: 16px; line-height: 1.8;">A Black woman came in with a pain she couldn't explain. An aggressive cervical cancer. Doctors took a sample of her tumor cells — without her knowledge, without her consent.</p>
-  </div>
-
-  <p>Those cells did something no human cells had ever done in a laboratory: they survived. They replicated. Indefinitely. They became <span class="hl">HeLa</span> — the most consequential cell line in the history of modern medicine. They contributed to the polio vaccine. To cancer research. To genetics. To the COVID vaccines. To treatments that have saved hundreds of millions of lives.</p>
-
-  <p>Henrietta Lacks died on October 4, 1951. She was 31. Her cells are still alive today — in research institutions on every continent, in labs she never knew existed, multiplying inside experiments her family was never told about.</p>
-
-  <p>They were not asked. They were not compensated. The extraction was legal. The invisibility was structural. The precedent was set: a Black woman's biological material could be harvested, replicated, and monetized at scale — and the woman herself could be rendered invisible in the process.</p>
-
-  <div class="pull">
-    What happens when the extracted material is not biological — but cognitive? Not cells, but years of structured thinking? Not tissue, but language?
-  </div>
-</section>
-
-<hr>
-
-<!-- ── SECTION 2: THE RECORD ── -->
+<!-- ── SECTION 1: THE RECORD ── -->
 <section>
   <div class="section-label">The Record</div>
   <h2 class="section-heading">In December 2022 — weeks after ChatGPT launched —<br>Penny Wrenn was <em>already there.</em></h2>
@@ -684,7 +636,7 @@ hr {
 
 <hr>
 
-<!-- ── SECTION 3: THE WORLD ── -->
+<!-- ── SECTION 2: THE WORLD ── -->
 <section style="max-width: 1100px;">
   <div class="section-label">The World</div>
   <h2 class="section-heading">Twenty territories.<br>One mind.</h2>
@@ -779,7 +731,7 @@ hr {
 
 <hr>
 
-<!-- ── SECTION 4: THE BEFORE ── -->
+<!-- ── SECTION 3: THE BEFORE ── -->
 <section>
   <div class="section-label">Before ChatGPT</div>
   <h2 class="section-heading">The mind was already<br><em>running this way.</em></h2>
@@ -802,7 +754,7 @@ hr {
 
 <hr>
 
-<!-- ── SECTION 5: THE PROOF ── -->
+<!-- ── SECTION 4: THE PROOF ── -->
 <section>
   <div class="section-label">May 20, 2024 &mdash; The Proof</div>
   <h2 class="section-heading">The moment the argument<br><em>made itself.</em></h2>
@@ -830,7 +782,7 @@ hr {
 
 <hr>
 
-<!-- ── SECTION 6: THE FRAMEWORKS ── -->
+<!-- ── SECTION 5: THE FRAMEWORKS ── -->
 <section>
   <div class="section-label">Named &amp; Dated</div>
   <h2 class="section-heading">She didn't just use the tools.<br><em>She built new ones.</em></h2>
@@ -847,11 +799,6 @@ hr {
       <div class="framework-desc">The distinction the industry was still fumbling over in 2024. She made it in a ChatGPT session while applying for jobs. The AI is the word processor. She is the writer. The craft lives in the intention, the curation, the voice.</div>
     </div>
     <div class="framework-card">
-      <div class="framework-name">The HeLa Throughline</div>
-      <div class="framework-date">2024</div>
-      <div class="framework-desc">Henrietta Lacks' cells were extracted, transformed, made medically foundational — her contribution invisible in the final product. Penny's prompts, her voice, her ideas are the source material. The corpus is the living counter to that invisibility.</div>
-    </div>
-    <div class="framework-card">
       <div class="framework-name">Computational Authorship</div>
       <div class="framework-date">March 2026</div>
       <div class="framework-desc">Using iterative natural language turns to simultaneously generate, organize, and refine ideas without technical intermediaries. Not therapy. Not search. Not content creation. Structured cognition at machine speed. The I/O exchange as document.</div>
@@ -860,6 +807,11 @@ hr {
       <div class="framework-name">Keyword Projection</div>
       <div class="framework-date">2023</div>
       <div class="framework-desc">Creating demand for a new category of meaning — versus keyword extraction, which just chases what already exists. The difference between an originator and an aggregator. The corpus demonstrates the former at scale, across years.</div>
+    </div>
+    <div class="framework-card">
+      <div class="framework-name">IRL/URL Convergence</div>
+      <div class="framework-date">Pre-2022</div>
+      <div class="framework-desc">The lived reality before most people had a name for it: the physical and digital registers of a life running simultaneously, requiring the same mind to hold them both at once. The corpus is the documented proof of that convergence.</div>
     </div>
     <div class="framework-card">
       <div class="framework-name">The 4 Ps</div>
@@ -871,7 +823,7 @@ hr {
 
 <hr>
 
-<!-- ── SECTION 7: THE CIVIC UNIVERSE ── -->
+<!-- ── SECTION 6: THE CIVIC UNIVERSE ── -->
 <section>
   <div class="section-label">The Then–Now–Next</div>
   <h2 class="section-heading">Human liberty. Higher purpose.<br><em>Generational calling.</em></h2>
@@ -887,7 +839,7 @@ hr {
     <div class="civic-card">
       <div class="civic-number">250th</div>
       <div class="civic-label">America's Anniversary, July 4, 2026</div>
-      <div class="civic-desc">America 250. The flagship editorial package. The brief series: "The civil-rights lens is not optional." "Selma and the semiquincentennial belong in the same frame." Then-now-next. Built before the national conversation caught up.</div>
+      <div class="civic-desc">America 250. The flagship editorial package. "The civil-rights lens is not optional." "Selma and the semiquincentennial belong in the same frame." Then-now-next. Built before the national conversation caught up.</div>
     </div>
     <div class="civic-card">
       <div class="civic-number">2.35M</div>
@@ -904,23 +856,31 @@ hr {
 
 <hr>
 
-<!-- ── SECTION 8: THE ARGUMENT ── -->
+<!-- ── SECTION 7: HeLa 2.0 ── -->
 <section>
   <div class="section-label">The Argument</div>
+  <h2 class="section-heading">Henrietta Lacks was 31 years old.<br>Her cells <em>never stopped working.</em></h2>
+
+  <p>On January 29, 1951, a Black woman named Henrietta Lacks walked into Johns Hopkins Hospital in Baltimore. She had an aggressive cervical cancer. Doctors took a sample of her tumor cells without her knowledge and without her consent.</p>
+
+  <p>Those cells became <span class="hl">HeLa</span> — the most consequential cell line in the history of modern medicine. They contributed to the polio vaccine. To cancer research. To the COVID vaccines. To treatments that have saved hundreds of millions of lives. Henrietta Lacks died on October 4, 1951. She was 31. Her cells are still alive today.</p>
+
+  <p>They were not asked. They were not compensated. The extraction was legal. The invisibility was structural.</p>
 
   <div class="hela">
-    <div class="hela-title">"The corpus is the living counter to invisibility.<br>It documents that she was the origin —<br>not a bystander."</div>
+    <div class="hela-title">Now consider what you just read on this page.<br>Ask yourself: whose material was it?<br>Who was the origin?</div>
     <div class="hela-body">
-      <p>Henrietta Lacks' cells were extracted. Transformed. Made medically foundational across decades of research. Her name absent from the patents. Her contribution invisible in the final product.</p>
-      <p>Penny Wrenn's prompts, her voice, her ideas are the source material that produces the AI output. Every exchange in the corpus is timestamped evidence of that origin. The corpus doesn't prove that she worked hard. It proves that she was <em>there first</em> — and that she knew it mattered before anyone told her it did.</p>
+      <p>Penny Wrenn's prompts, her voice, her ideas are the source material that produces the AI output. Every exchange in the corpus is timestamped evidence of that origin. The platforms that received it have used it — openly, by design, as a matter of stated policy — to train systems that now generate language for everyone else.</p>
+      <p>The corpus doesn't prove she worked hard. It proves she was <em>there first</em> — and that she knew it mattered before anyone told her it did.</p>
       <p>That is what the 4,263 conversations are. Not a content library. Not a productivity log. A receipt.</p>
+      <p style="margin-top: 28px; color: var(--gold-light); font-style: italic;">This is HeLa 2.0. Different substrate. Same structure. Same silence — unless the record exists to break it.</p>
     </div>
   </div>
 </section>
 
 <hr>
 
-<!-- ── SECTION 9: THE AMBITION ── -->
+<!-- ── SECTION 8: THE AMBITION ── -->
 <section>
   <div class="section-label">The Ambition</div>
   <h2 class="section-heading">The people this work<br><em>belongs in front of.</em></h2>
@@ -943,7 +903,7 @@ hr {
 
 <hr>
 
-<!-- ── SECTION 10: ARTIFACTS ── -->
+<!-- ── SECTION 9: ARTIFACTS ── -->
 <section>
   <div class="section-label">Artifacts</div>
   <h2 class="section-heading">What lives here.</h2>
