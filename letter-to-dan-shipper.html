@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penny Wrenn → Dan Shipper · Every.to · EIR Pitch</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0d0d0d;
+    --ink: #161616;
+    --steel: #1f2430;
+    --paper: #f2ede4;
+    --fog: #8a8a8a;
+    --rule: #2e2e2e;
+    --accent: #4a7fa5;
+    --accent-light: #6ca3c8;
+    --gold: #c8961e;
+    --gold-dim: rgba(200,150,30,0.15);
+    --white: #fdfcfa;
+    --off: #c8c3ba;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--paper);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.75;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--ink);
+    border-bottom: 2px solid var(--accent);
+    padding: 44px 24px 36px;
+    text-align: center;
+  }
+  .header-eyebrow {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 18px;
+  }
+  .header h1 {
+    font-size: clamp(1.7rem, 4vw, 2.9rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+  .header h1 em {
+    color: var(--accent-light);
+    font-style: normal;
+  }
+  .header-sub {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.85rem;
+    color: var(--fog);
+    letter-spacing: 1px;
+    margin-bottom: 32px;
+  }
+  .header-pills {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .pill {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid var(--accent);
+    color: var(--accent-light);
+    padding: 5px 14px;
+    border-radius: 20px;
+  }
+
+  /* ─── LAYOUT ─── */
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 24px 100px;
+  }
+
+  /* ─── LETTER BODY ─── */
+  .letter {
+    margin-bottom: 64px;
+  }
+  .letter-date {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.8rem;
+    color: var(--fog);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+  .letter-to {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.8rem;
+    color: var(--fog);
+    margin-bottom: 40px;
+  }
+  .letter p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--paper);
+    margin-bottom: 22px;
+  }
+  .letter p:last-child { margin-bottom: 0; }
+  .letter strong { color: var(--white); }
+  .letter em { color: var(--accent-light); font-style: italic; }
+
+  /* ─── DIVIDER ─── */
+  .rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 56px 0 48px;
+  }
+
+  /* ─── SECTION ─── */
+  .section-tag {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 10px;
+  }
+  .section-head {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 24px;
+  }
+
+  /* ─── MIRROR TABLE ─── */
+  .mirror {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 32px 0;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .mirror-header {
+    background: var(--steel);
+    padding: 14px 20px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .mirror-header.dan { color: var(--accent-light); }
+  .mirror-header.penny { color: var(--gold); }
+  .mirror-row-dan, .mirror-row-penny {
+    background: var(--ink);
+    padding: 14px 20px;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--off);
+    border-top: 1px solid var(--rule);
+  }
+  .mirror-row-dan strong, .mirror-row-penny strong {
+    display: block;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .mirror-row-dan strong { color: var(--accent-light); }
+  .mirror-row-penny strong { color: var(--gold); }
+  @media (max-width: 580px) {
+    .mirror { grid-template-columns: 1fr; }
+  }
+
+  /* ─── CALLOUT ─── */
+  .callout {
+    background: var(--steel);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .callout p {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--off);
+    margin-bottom: 10px;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p strong { color: var(--white); }
+  .callout-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 8px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 10px;
+  }
+
+  /* ─── PULLQUOTE ─── */
+  .pq {
+    border-left: 4px solid var(--accent);
+    padding: 16px 24px;
+    margin: 28px 0;
+    background: rgba(74,127,165,0.07);
+    border-radius: 0 4px 4px 0;
+  }
+  .pq p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--white);
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  .pq cite {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    font-style: normal;
+  }
+
+  /* ─── DELIVERABLE LIST ─── */
+  .deliverables {
+    list-style: none;
+    margin: 20px 0;
+  }
+  .deliverables li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 16px;
+    font-size: 0.975rem;
+    line-height: 1.65;
+    color: var(--paper);
+    align-items: start;
+  }
+  .deliverables li:last-child { border-bottom: none; }
+  .del-marker {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: var(--accent-light);
+    padding-top: 3px;
+  }
+
+  /* ─── THE ASK ─── */
+  .ask-box {
+    background: var(--steel);
+    border: 1px solid rgba(74,127,165,0.4);
+    border-radius: 4px;
+    padding: 36px 40px;
+    margin-top: 52px;
+  }
+  .ask-box h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 18px;
+    line-height: 1.3;
+  }
+  .ask-box p {
+    font-size: 0.975rem;
+    line-height: 1.8;
+    color: var(--paper);
+    margin-bottom: 16px;
+  }
+  .ask-box p:last-child { margin-bottom: 0; }
+
+  /* ─── SIGNATURE ─── */
+  .sig {
+    margin-top: 48px;
+    font-size: 1rem;
+    color: var(--paper);
+    line-height: 1.8;
+  }
+  .sig .name {
+    font-size: 1.05rem;
+    color: var(--white);
+    font-weight: 700;
+    margin-top: 6px;
+  }
+
+  /* ─── DATA STAT ROW ─── */
+  .stats {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin: 24px 0;
+  }
+  .stat-item {
+    flex: 1;
+    min-width: 100px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(200,150,30,0.25);
+    border-radius: 4px;
+    padding: 14px;
+    text-align: center;
+  }
+  .stat-n {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-d {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--fog);
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    text-align: center;
+    padding: 36px 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .footer p {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--fog);
+    line-height: 1.9;
+  }
+
+  @media (max-width: 600px) {
+    .ask-box { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<div class="header">
+  <div class="header-eyebrow">Penny Wrenn → Dan Shipper · Every.to · March 2026</div>
+  <h1>English Is the New<br>Programming Language.<br><em>I've Been Writing It for Three Years.</em></h1>
+  <div class="header-sub">Entrepreneur in Residence · Penny Wrenn Media as Proof of Concept</div>
+  <div class="header-pills">
+    <span class="pill">EIR Proposal</span>
+    <span class="pill">Non-Developer Track</span>
+    <span class="pill">Conglomerate-as-a-Service</span>
+    <span class="pill">Licensed IP · Not Open Access</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ══ THE LETTER ══ -->
+  <div class="letter">
+    <div class="letter-date">March 2026</div>
+    <div class="letter-to">Dan Shipper · Co-Founder & CEO, Every.to · dan@every.to</div>
+
+    <p>Dear Dan,</p>
+
+    <p>You said it: English is the new programming language. I've been writing in it since December 2022 — weeks after ChatGPT launched — and I have the archive to prove it.</p>
+
+    <p>What I've built is not a newsletter, a Substack, or a content calendar. It is a <strong>media intelligence operating system</strong> — 4,118 conversations, 20 named content clusters, a Python pipeline I commissioned to extract and organize it, and a suite of publication-ready editorial artifacts — all produced by one person, with AI, using voice-to-text as the primary input. No engineering background. No technical co-founder. Just a twenty-year journalism career that finally had a production tool fast enough to keep up with it.</p>
+
+    <p>I am pitching you for an Entrepreneur in Residence role at Every Studio. Not because I want a perch to write from. Because <strong>Penny Wrenn Media is the proof of concept for the thing you haven't built yet</strong> — and I want to build it inside your infrastructure, with your platform, against your audience, and in front of your investors.</p>
+
+    <p>The thing you haven't built yet is this: an EIR track for the non-developer, non-technical operator who is already running an AI-native intellectual enterprise — and who can demonstrate, with receipts, that the "allocation economy" thesis you've been writing toward works just as well in editorial, civic, and institutional contexts as it does in software. Every Studio has incubated Spiral, Sparkle, and Lex. All of them are tools for writers. None of them were built <em>by</em> a writer who was also building a media company in real time. That's the gap. I'm the gap.</p>
+
+    <p>Here is the specific proposition: I license you access to the creative and strategic output of the building process — not to the corpus itself, which is my IP and stays mine — but to the methodology, the architecture, the documented process, and the published artifacts that emerge from building Penny Wrenn Media into what it can become. Every gets the story. Every gets the proof of concept. Every gets the first demonstration that the EIR model works outside the technical founder class. I get infrastructure, platform, audience, and the institutional relationships your network carries. We both get a product category that neither of us can build alone.</p>
+
+    <p>The ask is a conversation. The evidence is below.</p>
+
+    <div class="sig">
+      Sincerely,
+      <div class="name">Penny Wrenn</div>
+      Philadelphia, PA · pennywrenn@gmail.com
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- ══ THE PARALLEL ══ -->
+  <div class="section-tag">Why Every · Why Now</div>
+  <div class="section-head">You Built Every the Way I Built the Corpus. We Were Running the Same Experiment.</div>
+
+  <p style="font-size:1rem;color:var(--off);line-height:1.8;margin-bottom:24px;">Every.to started as a bundle of newsletters — individual writers building a shared publication, each writing about their area of expertise, together creating something bigger than any one voice. The corpus I've built follows the same logic: twenty named content clusters, each one a distinct domain, together forming a twenty-cluster intellectual portfolio that is more valuable as a unified architecture than as any single piece. We did not plan the same thing. We arrived at the same structure independently, from opposite directions — you from the software side, me from the editorial and civic side. That structural convergence is the pitch.</p>
+
+  <div class="mirror">
+    <div class="mirror-header dan">Dan / Every.to</div>
+    <div class="mirror-header penny">Penny / Penny Wrenn Media</div>
+
+    <div class="mirror-row-dan"><strong>Origin</strong>Bundle of newsletters → media company → AI tools incubator</div>
+    <div class="mirror-row-penny"><strong>Origin</strong>Bundle of conversations → media architecture → AI-native content operating system</div>
+
+    <div class="mirror-row-dan"><strong>Production Method</strong>Writers who think in public, using AI to extend the work</div>
+    <div class="mirror-row-penny"><strong>Production Method</strong>Voice-to-text operator using AI to process and publish at scale — 20 years pre-AI practice, 3+ years documented AI collaboration</div>
+
+    <div class="mirror-row-dan"><strong>Thesis</strong>"English is the new programming language" / the allocation economy</div>
+    <div class="mirror-row-penny"><strong>Thesis</strong>"AI-processed, not AI-generated" / the prosumer as IP owner / computational authorship</div>
+
+    <div class="mirror-row-dan"><strong>EIR Model So Far</strong>5 technical founders, first class Oct 2024 — write about the build as they ship</div>
+    <div class="mirror-row-penny"><strong>EIR Proposition</strong>First non-technical EIR — editorial/civic operator who has been building, documented, since 2022, with the archive to prove it</div>
+
+    <div class="mirror-row-dan"><strong>Products Incubated</strong>Spiral, Sparkle, Lex — AI tools for writers and knowledge workers</div>
+    <div class="mirror-row-penny"><strong>Products Emerging</strong>Corpus pipeline (AI conversation → structured IP), 4Ps methodology (editorial framework), Penny Wrenn Media (civic/prosumer editorial brand)</div>
+
+    <div class="mirror-row-dan"><strong>Audience Gap</strong>Technical, AI-curious, mostly developers and knowledge workers in tech</div>
+    <div class="mirror-row-penny"><strong>Audience Served</strong>The prosumer class — 40-60 year old knowledge workers, civic operators, journalists, educators, nonprofit leaders — who are running AI-native operations and have no platform</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">The Structural Insight</div>
+    <p>Every Studio's EIR program asks technical founders to <strong>write about what they're building</strong>. The thesis is that writing = thinking = better products. Penny Wrenn's entire practice inverts that: she <strong>writes to build</strong>, in real time, using natural language I/O as the production method itself. She is not a writer who builds. She is a builder whose medium is language. That is not a subtle distinction. It is the next frontier of your own thesis.</p>
+  </div>
+
+  <hr class="rule">
+
+  <!-- ══ WHAT PENNY HAS BUILT ══ -->
+  <div class="section-tag">The Proof of Concept</div>
+  <div class="section-head">What Is Already Built, Documented, and Ready</div>
+
+  <div class="stats">
+    <div class="stat-item">
+      <span class="stat-n">4,118</span>
+      <span class="stat-d">Conversations<br>in the corpus</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n">20</span>
+      <span class="stat-d">Named content<br>clusters</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n">15,123</span>
+      <span class="stat-d">Exchanges<br>extracted</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n">Dec '22</span>
+      <span class="stat-d">First conversation<br>in the archive</span>
+    </div>
+  </div>
+
+  <p style="font-size:1rem;color:var(--off);line-height:1.8;margin-bottom:20px;">The corpus is not the product. The corpus is the evidence. The product is what the corpus has been producing — a suite of editorial frameworks, published artifacts, and operational methodologies that together constitute an AI-native media company built by one person, from scratch, in real time.</p>
+
+  <ul class="deliverables">
+    <li>
+      <span class="del-marker">→</span>
+      <span><strong>America 250 Through a Civil Rights Lens</strong> — 8 publication-ready HTML/PDF assets, America's semiquincentennial through a civil rights interpretive frame. Foundation-fundable. Launches this year.</span>
+    </li>
+    <li>
+      <span class="del-marker">→</span>
+      <span><strong>Penny Wrenn Media Manifesto</strong> — The editorial brand document. "21 out of 24" — a self-administered Prof G Stress Test that scored the business at 21/24, with the one underscore being market size (now corrected upward).</span>
+    </li>
+    <li>
+      <span class="del-marker">→</span>
+      <span><strong>The 4Ps Taxonomy</strong> — A complete editorial operating framework (Produce, Publish, Pitch, Promote) that functions as a curriculum, a client-facing methodology, and a teachable workflow. Licensable.</span>
+    </li>
+    <li>
+      <span class="del-marker">→</span>
+      <span><strong>Computational Authorship Framework</strong> — A named, documented practice: the I/O exchange as intellectual property, the operator fingerprint as authorship, voice-first composition as the writing method. Published. Arguable in court.</span>
+    </li>
+    <li>
+      <span class="del-marker">→</span>
+      <span><strong>The Corpus Pipeline</strong> — A Python clustering tool that converts raw ChatGPT exports into structured IP inventories. Built to analyze Penny's own archive. Generalizable to any organization managing AI-generated intellectual output.</span>
+    </li>
+    <li>
+      <span class="del-marker">→</span>
+      <span><strong>Named Agent Architecture</strong> — Startup Sam (daily operations agent), #TeamTioga (client ops agent) — a documented AI operating system for a solo operator managing multiple simultaneous projects. Pre-figures enterprise AI orchestration at individual scale.</span>
+    </li>
+    <li>
+      <span class="del-marker">→</span>
+      <span><strong>20 Content Clusters</strong> — Community Schools, Salute Selma, Faithful Home Care, Dementia Deserves Better, 101 Free Ideas, Power 2026, Cotton to Content, America 250, and twelve more — each a distinct domain with institutional relationships, documented AI work, and editorial output attached.</span>
+    </li>
+  </ul>
+
+  <hr class="rule">
+
+  <!-- ══ THE LICENSE STRUCTURE ══ -->
+  <div class="section-tag">The IP Structure · What Every Gets and What Stays Mine</div>
+  <div class="section-head">Licensed Access to the Building Process. Not the Archive Itself.</div>
+
+  <p style="font-size:1rem;color:var(--off);line-height:1.8;margin-bottom:20px;">The corpus — 4,118 conversations, 15,123 exchanges, the raw ChatGPT history — is my intellectual property and is not part of this arrangement. It stays mine. What Every licenses is access to the creative and strategic output of the building process: the methodology as it develops, the published artifacts as they are released, the documented architecture of what Penny Wrenn Media becomes. Every.to is not buying the archive. Every.to is buying a front-row seat to watching it become a company — with the right to write about it, to use the methodology as a demonstration of Every Studio's thesis, and to incorporate the frameworks into Every's own editorial and product development.</p>
+
+  <div class="callout">
+    <div class="callout-label">Specifically</div>
+    <p><strong>What Every licenses:</strong> The 4Ps taxonomy as a teachable framework. The Computational Authorship methodology as a case study. The build-in-public narrative of Penny Wrenn Media's development — articles, essays, documented milestones, the architecture decisions. The corpus pipeline as a demonstrable proof of concept for AI content governance tools.</p>
+    <p><strong>What Every does not get:</strong> Direct access to the raw corpus (the ChatGPT export). The unpublished working documents. The private institutional relationships and client materials inside the 20 clusters. The underlying archive that is the source of the methodology.</p>
+    <p><strong>The analogy:</strong> You don't license the kitchen. You license the cookbook — and the right to watch the chef cook, write about it, and sell seats to the demonstration.</p>
+  </div>
+
+  <div class="pq">
+    <p>"I've taken the time to think of myself as my own software developer shipping applications — so these are digital artifacts, magazine articles, things I can pitch, publish and/or promote in the real world for compensation."</p>
+    <cite>Penny Wrenn — Corpus session, 2026</cite>
+  </div>
+
+  <hr class="rule">
+
+  <!-- ══ WHAT EVERY GETS ══ -->
+  <div class="section-tag">The Return · What Every Gains</div>
+  <div class="section-head">The First Proof That the EIR Model Works Outside Technical Founders.</div>
+
+  <p style="font-size:1rem;color:var(--off);line-height:1.8;margin-bottom:20px;">Every Studio's first class of EIRs were all technical founders. Brandon Gell ran an insurance tech company for seven years and raised $50 million. The value proposition was: smart founders, writing about what they build, validated by Every's audience. That model works. Here is what adding a non-technical, editorial/civic EIR does for it:</p>
+
+  <ul class="deliverables">
+    <li>
+      <span class="del-marker">1.</span>
+      <span><strong>Demographic expansion.</strong> Every's current readership is AI-curious technical workers. The prosumer class — 40–60 year old knowledge workers, civic operators, educators, journalists, nonprofit leaders — is a massive adjacent market that has not been specifically served by any AI-native media platform. Penny Wrenn Media is the proof of concept that this demographic exists, is active, and will pay for the right infrastructure.</span>
+    </li>
+    <li>
+      <span class="del-marker">2.</span>
+      <span><strong>Proof of the core thesis from the other side.</strong> Dan's thesis is that "English is the new programming language." The entire EIR class so far has demonstrated this from the engineering side (technical founders who now write in English instead of code). Penny demonstrates it from the editorial side: a writer who has always written in English, for whom AI finally provides the processing infrastructure her practice was built for. That's the thesis fully proven — not just code becoming language, but language always having been the code.</span>
+    </li>
+    <li>
+      <span class="del-marker">3.</span>
+      <span><strong>A product category Every hasn't entered.</strong> The corpus pipeline — a tool for converting AI conversation history into structured intellectual property — is not Spiral, Sparkle, or Lex. It's a governance and provenance layer for knowledge workers who generate output at scale. Every doesn't have this. The market for it is every organization trying to manage AI-generated intellectual output without losing ownership of it.</span>
+    </li>
+    <li>
+      <span class="del-marker">4.</span>
+      <span><strong>Institutional relationship activation.</strong> The 20 content clusters carry real institutional relationships: Community Schools and EITC (Pennsylvania, $75M expanded cap), Salute Selma (civil rights, 60th anniversary), America 250 (federal commission, active grant funding), Faithful Home Care, Dementia Deserves Better. These are not audience segments. They are funded, operational civic relationships that Penny has been developing for years. The EIR engagement activates them as Every's proof of civic reach.</span>
+    </li>
+    <li>
+      <span class="del-marker">5.</span>
+      <span><strong>The story is ready to be written.</strong> The corpus already exists. The archive already documents three-plus years of AI-native building before anyone was calling it that. The articles write themselves — and Penny writes them. Every doesn't have to commission the proof of concept. It already happened. The EIR arrangement turns the existing record into Every's editorial and product development content.</span>
+    </li>
+  </ul>
+
+  <hr class="rule">
+
+  <!-- ══ THE CONGLOMERATE THESIS ══ -->
+  <div class="section-tag">The Bigger Picture · Conglomerate-as-a-Service</div>
+  <div class="section-head">Every.to Proved the Bundle Model for Tech Writers. The Next Bundle Is the Prosumer Class.</div>
+
+  <p style="font-size:1rem;color:var(--off);line-height:1.8;margin-bottom:20px;">Here is the long thesis, stated plainly. Every.to is already a media conglomerate in miniature — a bundle of writers, each building an audience, sharing infrastructure, together producing more value than any one of them could produce alone. The model works. What it hasn't done yet is extend to the non-developer class: the people whose intellectual output is civic, editorial, and institutional rather than technical.</p>
+
+  <p style="font-size:1rem;color:var(--off);line-height:1.8;margin-bottom:20px;">Penny Wrenn Media, built inside Every's infrastructure and in public view of Every's audience, becomes the proof of concept that the bundle model scales beyond AI-curious tech workers to the broader prosumer class. And <em>that</em> — the replication of the Every model for non-technical AI-native operators — is the product. Not the newsletter. Not the tool. The architecture. "Conglomerate-as-a-service" for people who have twenty years of intellectual capital, a working AI practice, and no infrastructure to convert either into a business.</p>
+
+  <div class="pq">
+    <p>"AI is the cake. Human intelligence is the soul food. The future? A people tech world — where users reclaim attention and build for themselves, owned 'for us by us,' not bought and sold on the backs of our unpaid labor."</p>
+    <cite>Penny Wrenn — Reply to Dan Shipper, March 2025</cite>
+  </div>
+
+  <!-- ══ THE ASK ══ -->
+  <div class="ask-box">
+    <div class="section-tag" style="margin-bottom:10px;">The Ask</div>
+    <h3>One Conversation. Not a Job Application.</h3>
+    <p>This is not a pitch for a writing job, a staff position, or access to Every's editorial calendar. It is a pitch for a <strong>structured EIR engagement</strong> — a defined period, a defined deliverable set, a licensed arrangement where Penny builds in public and Every carries the story.</p>
+    <p>The specific ask: thirty minutes with Dan Shipper to walk through the architecture of what's been built, establish whether the EIR structure is the right vehicle, and determine what the license structure looks like in practice. No faith required. The archive is documented. The artifacts exist. The methodology is named and written down.</p>
+    <p>What Penny brings to the conversation: three years of documented AI-native building, twenty content clusters with institutional relationships attached, a Stress Test score of 21/24 on her own business, and a clear understanding that the ask is not to be made — it is to be given the infrastructure to make the thing that is already half-made.</p>
+    <p>What Every brings: platform, audience, product infrastructure, and the credibility to tell this story to the people who need to hear it and fund what comes next.</p>
+    <p style="margin-top:20px;"><strong>Contact:</strong> pennywrenn@gmail.com &nbsp;·&nbsp; Philadelphia, PA</p>
+  </div>
+
+</div><!-- /.wrap -->
+
+<!-- ─── FOOTER ─── -->
+<div class="footer">
+  <p>
+    Penny Wrenn · Penny Wrenn Media · March 2026<br>
+    Sourced from: <code>clusters/every_to.csv</code> · <code>clusters/Dan_Shipper.csv</code> ·
+    <code>framework_computational_authorship.md</code> · <code>doc_startup_sam_identity.md</code> ·
+    <code>_summary_report.txt</code> · <code>pitch_scott_galloway.md</code><br>
+    Every Studio EIR program reference: <em>Introducing Every Studio</em>, every.to, October 2024 ·
+    Dan Shipper thesis: <em>Lenny's Newsletter interview</em>, 2024 · "AI & I" podcast, Every.to
+  </p>
+</div>
+
+</body>
+</html>
