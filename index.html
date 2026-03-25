@@ -1,358 +1,981 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Penny Wrenn Media — HeLa 2.0</title>
-  <meta name="description" content="On authorship, extraction, and what a Black woman's intellectual output is worth. The case for Computational Authorship." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penny Wrenn Media</title>
+<meta name="description" content="When everyone was calling it a chat history, she was calling it a corpus. The case for Computational Authorship." />
+<style>
 
-    :root {
-      --black:       #080807;
-      --near-black:  #111110;
-      --dark:        #1c1c1a;
-      --cream:       #f0ebe0;
-      --warm-white:  #faf7f1;
-      --gold:        #c9a84c;
-      --gold-dim:    #8b6e2a;
-      --gold-muted:  #5a4318;
-      --red:         #7a1515;
-      --gray:        #7a7770;
-      --gray-light:  #a09890;
-      --rule:        #2a2a28;
-      --rule-light:  #3a3a36;
-    }
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html {
-      background: var(--black);
-      color: var(--cream);
-      scroll-behavior: smooth;
-    }
+:root {
+  --black: #08080f;
+  --near-black: #0e0e18;
+  --dark: #14141f;
+  --gold: #c8973a;
+  --gold-light: #e4b86a;
+  --gold-pale: #f5e6c8;
+  --white: #f5f3ee;
+  --white-dim: #c8c4bc;
+  --white-faint: #7a7670;
+  --red: #b84040;
+  --serif: Georgia, 'Times New Roman', serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'Courier New', Courier, monospace;
+}
 
-    body {
-      font-family: 'Libre Baskerville', Georgia, serif;
-      font-size: 17px;
-      line-height: 1.82;
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 0 28px;
-    }
+html { scroll-behavior: smooth; }
 
-    /* ── MASTHEAD ── */
-    header {
-      padding: 64px 0 44px;
-      border-bottom: 1px solid var(--rule-light);
-    }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--serif);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
-    .site-domain {
-      font-family: 'Space Mono', monospace;
-      font-size: 10.5px;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: var(--gold-dim);
-      margin-bottom: 10px;
-    }
+/* ── OPENING ── */
+.opening {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 40px;
+  text-align: center;
+  position: relative;
+  border-bottom: 1px solid #1e1e2e;
+}
 
-    .site-name {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(32px, 6vw, 56px);
-      font-weight: 900;
-      color: var(--warm-white);
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-    }
+.opening::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--black) 70%);
+  z-index: 0;
+}
 
-    .site-tagline {
-      margin-top: 18px;
-      font-style: italic;
-      font-size: 15.5px;
-      color: var(--gold);
-      line-height: 1.6;
-      max-width: 520px;
-    }
+.opening > * { position: relative; z-index: 1; }
 
-    /* ── SECTIONS ── */
-    section {
-      padding: 60px 0;
-      border-bottom: 1px solid var(--rule);
-    }
+.opening-domain {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.6;
+  margin-bottom: 56px;
+}
 
-    section:last-of-type {
-      border-bottom: none;
-    }
+.opening-number {
+  font-family: var(--sans);
+  font-size: clamp(80px, 18vw, 220px);
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: -4px;
+  line-height: 1;
+  margin-bottom: 12px;
+}
 
-    .section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.38em;
-      text-transform: uppercase;
-      color: var(--gold-dim);
-      margin-bottom: 22px;
-    }
+.opening-unit {
+  font-family: var(--sans);
+  font-size: clamp(13px, 2vw, 17px);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  margin-bottom: 64px;
+}
 
-    .marker {
-      display: inline-block;
-      font-family: 'Space Mono', monospace;
-      font-size: 10.5px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border: 1px solid var(--gold-dim);
-      color: var(--gold);
-      margin-bottom: 20px;
-    }
+.opening-title {
+  font-size: clamp(22px, 4vw, 44px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--white);
+  max-width: 860px;
+  line-height: 1.32;
+  margin-bottom: 24px;
+}
 
-    h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(26px, 4.5vw, 40px);
-      font-weight: 700;
-      color: var(--warm-white);
-      line-height: 1.18;
-      margin-bottom: 28px;
-    }
+.opening-title em {
+  color: var(--gold-light);
+  font-style: italic;
+}
 
-    h2 em {
-      font-style: italic;
-      color: var(--gold);
-    }
+.opening-byline {
+  font-family: var(--sans);
+  font-size: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
 
-    p {
-      color: var(--cream);
-      margin-bottom: 22px;
-    }
+.opening-dates {
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--white-faint);
+}
 
-    p:last-child { margin-bottom: 0; }
+.opening-scroll {
+  margin-top: 80px;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--white-faint);
+}
 
-    .lede {
-      font-size: 19px;
-      line-height: 1.72;
-      color: var(--warm-white);
-    }
+/* ── SECTIONS ── */
+section {
+  padding: 100px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
 
-    strong { color: var(--warm-white); }
+.section-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 48px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
 
-    .pull-quote {
-      border-left: 3px solid var(--gold-dim);
-      padding: 18px 0 18px 28px;
-      margin: 36px 0;
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(19px, 3.2vw, 26px);
-      font-style: italic;
-      color: var(--warm-white);
-      line-height: 1.42;
-    }
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #2a2a3e;
+  max-width: 200px;
+}
 
-    .anchor-line {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(18px, 2.8vw, 23px);
-      font-style: italic;
-      color: var(--gold);
-      border-top: 1px solid var(--rule-light);
-      border-bottom: 1px solid var(--rule-light);
-      padding: 20px 0;
-      margin: 32px 0;
-      line-height: 1.45;
-    }
+.section-heading {
+  font-size: clamp(24px, 4vw, 42px);
+  font-weight: 400;
+  line-height: 1.25;
+  margin-bottom: 32px;
+  color: var(--white);
+}
 
-    /* ── DATA POINTS ── */
-    .data-row {
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--rule);
-      font-family: 'Space Mono', monospace;
-    }
+.section-heading em { font-style: italic; color: var(--gold-light); }
 
-    .data-row:first-child { border-top: 1px solid var(--rule); }
+p {
+  font-size: clamp(16px, 1.8vw, 19px);
+  line-height: 1.75;
+  color: var(--white-dim);
+  margin-bottom: 24px;
+  max-width: 680px;
+}
 
-    .data-num {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--gold);
-      white-space: nowrap;
-      min-width: 80px;
-    }
+/* ── PULL QUOTES ── */
+.pull {
+  font-size: clamp(22px, 3.5vw, 38px);
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--white);
+  border-left: 3px solid var(--gold);
+  padding: 8px 0 8px 32px;
+  margin: 56px 0;
+  max-width: 740px;
+}
 
-    .data-label {
-      font-size: 11px;
-      color: var(--gray-light);
-      letter-spacing: 0.08em;
-      line-height: 1.5;
-    }
+.pull-attr {
+  display: block;
+  font-size: 13px;
+  font-family: var(--sans);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 16px;
+  font-style: normal;
+}
 
-    /* ── ARTIFACT LINKS ── */
-    .artifacts {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-top: 28px;
-    }
+/* ── STAT CARDS ── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2px;
+  margin: 56px 0;
+  background: #1a1a2a;
+}
 
-    .artifact-link {
-      display: block;
-      padding: 22px 26px;
-      border: 1px solid var(--rule-light);
-      text-decoration: none;
-      transition: border-color 0.18s ease, background 0.18s ease;
-    }
+.stat {
+  background: var(--dark);
+  padding: 32px 28px;
+}
 
-    .artifact-link:hover {
-      border-color: var(--gold-dim);
-      background: var(--near-black);
-    }
+.stat-number {
+  font-family: var(--sans);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
 
-    .artifact-kicker {
-      font-family: 'Space Mono', monospace;
-      font-size: 9.5px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold-dim);
-      margin-bottom: 7px;
-    }
+.stat-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white-faint);
+}
 
-    .artifact-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 19px;
-      font-weight: 700;
-      color: var(--warm-white);
-      line-height: 1.25;
-      margin-bottom: 8px;
-    }
+/* ── WORLD MAP ── */
+.world-map {
+  margin: 56px 0;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
+  gap: 3px;
+}
 
-    .artifact-desc {
-      font-size: 14px;
-      color: var(--gray-light);
-      font-style: italic;
-      line-height: 1.6;
-    }
+.cluster {
+  background: #1a1a2a;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  cursor: default;
+  transition: background 0.2s;
+  min-height: 80px;
+}
 
-    /* ── FOOTER ── */
-    footer {
-      padding: 44px 0 72px;
-      font-family: 'Space Mono', monospace;
-      font-size: 10.5px;
-      color: var(--gray);
-      letter-spacing: 0.1em;
-      line-height: 1.9;
-    }
+.cluster:hover { background: #24243a; }
 
-    footer a {
-      color: var(--gold-dim);
-      text-decoration: none;
-    }
+.cluster-name {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  line-height: 1.3;
+}
 
-    footer a:hover {
-      color: var(--gold);
-    }
-  </style>
+.cluster-count {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--gold);
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+.c-community-schools  { grid-column: span 5; grid-row: span 3; background: #1e1e30; min-height: 200px; }
+.c-salute-selma       { grid-column: span 4; grid-row: span 2; background: #1c1c2e; min-height: 140px; }
+.c-faithful-home      { grid-column: span 3; grid-row: span 2; background: #191928; }
+.c-giving-tuesday     { grid-column: span 3; }
+.c-strap-down         { grid-column: span 3; }
+.c-aging              { grid-column: span 2; }
+.c-galloway           { grid-column: span 2; }
+.c-pw-media           { grid-column: span 2; }
+.c-cotton             { grid-column: span 2; }
+.c-dementia           { grid-column: span 2; }
+.c-america-250        { grid-column: span 2; }
+.c-kuumba             { grid-column: span 2; }
+.c-101                { grid-column: span 2; }
+.c-worried            { grid-column: span 2; }
+.c-power-2026         { grid-column: span 1; }
+.c-everyto            { grid-column: span 1; }
+.c-dan-shipper        { grid-column: span 1; }
+.c-insight            { grid-column: span 1; }
+.c-mixtape            { grid-column: span 1; }
+.c-i-am-no-one        { grid-column: span 1; background: #111118; }
+
+/* ── PRECEDENT BLOCK ── */
+.precedent-block {
+  border: 1px solid #2a2a3e;
+  padding: 48px;
+  margin: 56px 0;
+  position: relative;
+  background: #0e0e18;
+}
+
+.precedent-block::before {
+  content: 'January 29, 1951';
+  position: absolute;
+  top: -10px;
+  left: 32px;
+  background: var(--black);
+  padding: 0 12px;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── BEFORE BLOCK ── */
+.before-block {
+  border: 1px solid #2a2a3e;
+  padding: 48px;
+  margin: 56px 0;
+  position: relative;
+}
+
+.before-block::before {
+  content: 'December 16, 2022';
+  position: absolute;
+  top: -10px;
+  left: 32px;
+  background: var(--black);
+  padding: 0 12px;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── THE REJECTION ── */
+.rejection {
+  background: #14141f;
+  border-left: 4px solid var(--red);
+  padding: 48px;
+  margin: 56px 0;
+}
+
+.rejection-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 24px;
+}
+
+.rejection p { color: var(--white-dim); }
+
+.rejection .response {
+  border-top: 1px solid #2a2a3e;
+  margin-top: 32px;
+  padding-top: 32px;
+}
+
+.rejection .response-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+
+/* ── FRAMEWORKS ── */
+.framework-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2px;
+  margin: 56px 0;
+  background: #1a1a2a;
+}
+
+.framework-card {
+  background: var(--dark);
+  padding: 32px 28px;
+}
+
+.framework-name {
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.framework-date {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white-faint);
+  margin-bottom: 16px;
+}
+
+.framework-desc {
+  font-size: 14px;
+  color: var(--white-dim);
+  line-height: 1.6;
+}
+
+/* ── CIVIC GRID ── */
+.civic-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin: 56px 0;
+  background: #1a1a2a;
+}
+
+.civic-card {
+  background: var(--dark);
+  padding: 32px 28px;
+}
+
+.civic-number {
+  font-family: var(--sans);
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.civic-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white-faint);
+  margin-bottom: 16px;
+}
+
+.civic-desc {
+  font-size: 14px;
+  color: var(--white-dim);
+  line-height: 1.6;
+}
+
+/* ── HELA ── */
+.hela {
+  background: linear-gradient(135deg, #14141f 0%, #0e0e1a 100%);
+  border: 1px solid #2a2a3e;
+  padding: 64px 56px;
+  margin: 56px 0;
+  text-align: center;
+}
+
+.hela-title {
+  font-size: clamp(20px, 3vw, 32px);
+  font-style: italic;
+  margin-bottom: 32px;
+  color: var(--white);
+  line-height: 1.4;
+}
+
+.hela-body {
+  font-size: clamp(15px, 1.6vw, 17px);
+  color: var(--white-dim);
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* ── AMBITION LIST ── */
+.ambition-list {
+  margin: 56px 0;
+  list-style: none;
+}
+
+.ambition-list li {
+  font-size: clamp(20px, 3vw, 32px);
+  padding: 20px 0;
+  border-bottom: 1px solid #1e1e2e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--white);
+}
+
+.ambition-list li:last-child { border-bottom: none; }
+
+.ambition-role {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white-faint);
+}
+
+/* ── ARTIFACTS ── */
+.artifacts {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 56px 0;
+  background: #1a1a2a;
+}
+
+.artifact-link {
+  display: block;
+  padding: 32px 36px;
+  background: var(--dark);
+  text-decoration: none;
+  transition: background 0.18s ease;
+}
+
+.artifact-link:hover { background: #1a1a2e; }
+
+.artifact-kicker {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+.artifact-title {
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+
+.artifact-desc {
+  font-size: 14px;
+  color: var(--white-faint);
+  font-family: var(--sans);
+  line-height: 1.6;
+}
+
+/* ── THE TURN ── */
+.turn {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 100px 40px;
+  background: var(--near-black);
+  border-top: 1px solid #1e1e2e;
+}
+
+.turn-setup {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--white-faint);
+  margin-bottom: 48px;
+}
+
+.turn-statement {
+  font-size: clamp(28px, 5vw, 56px);
+  font-style: italic;
+  line-height: 1.25;
+  max-width: 800px;
+  color: var(--white);
+  margin-bottom: 64px;
+}
+
+.turn-question {
+  font-size: clamp(18px, 3vw, 28px);
+  color: var(--gold);
+  font-style: italic;
+  margin-bottom: 40px;
+}
+
+.turn-credit {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--white-faint);
+  line-height: 2;
+}
+
+/* ── DIVIDERS ── */
+hr {
+  border: none;
+  border-top: 1px solid #1e1e2e;
+  margin: 0;
+}
+
+.hl { color: var(--gold-light); }
+.hl-white { color: var(--white); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  section { padding: 60px 24px; }
+  .hela { padding: 40px 28px; }
+  .rejection { padding: 32px 24px; }
+  .before-block { padding: 32px 24px; }
+  .precedent-block { padding: 32px 24px; }
+  .civic-grid { grid-template-columns: 1fr; }
+  .world-map { grid-template-columns: repeat(6, 1fr); }
+  .c-community-schools { grid-column: span 4; }
+  .c-salute-selma { grid-column: span 3; }
+}
+
+</style>
 </head>
 <body>
 
-<header>
-  <div class="site-domain">pennywrenn.media</div>
-  <div class="site-name">Penny Wrenn<br/>Media</div>
-  <div class="site-tagline">On authorship, extraction, and what a Black woman's intellectual output is worth.</div>
-</header>
+<!-- ── OPENING ── -->
+<div class="opening">
+  <div class="opening-domain">pennywrenn.media</div>
+  <div class="opening-number">4,263</div>
+  <div class="opening-unit">Conversations</div>
+  <h1 class="opening-title">When everyone was calling it a chat history,<br>she was calling it a <em>corpus.</em></h1>
+  <div class="opening-byline">Penny Wrenn</div>
+  <div class="opening-dates">December 2022 &mdash; March 2026</div>
+  <div class="opening-scroll">&#8595;&nbsp; Read the record</div>
+</div>
+
+<hr>
 
 <!-- ── SECTION 1: THE PRECEDENT ── -->
 <section>
   <div class="section-label">The Precedent</div>
-  <div class="marker">HeLa 2.0</div>
-  <h2>Henrietta Lacks was 31 years old.<br/>Her cells never stopped working.</h2>
+  <h2 class="section-heading">Henrietta Lacks was 31 years old.<br>Her cells <em>never stopped working.</em></h2>
 
-  <p class="lede">On January 29, 1951, a Black woman named Henrietta Lacks walked into Johns Hopkins Hospital in Baltimore with a pain she couldn't explain. She had an aggressive cervical cancer. Doctors took a sample of her tumor cells without her knowledge and without her consent.</p>
+  <div class="precedent-block">
+    <p style="color: var(--white-dim); font-size: 15px; margin-bottom: 16px;">Baltimore, Maryland. Johns Hopkins Hospital.</p>
+    <p style="color: var(--white); font-style: italic; font-size: 16px; line-height: 1.8;">A Black woman came in with a pain she couldn't explain. An aggressive cervical cancer. Doctors took a sample of her tumor cells — without her knowledge, without her consent.</p>
+  </div>
 
-  <p>Those cells did something no human cells had ever done in a laboratory: they survived. They replicated. Indefinitely. They became <strong>HeLa</strong> — the most consequential cell line in the history of modern medicine. They contributed to the polio vaccine. To cancer research. To genetics. To the COVID vaccines. To treatments that have saved hundreds of millions of lives.</p>
+  <p>Those cells did something no human cells had ever done in a laboratory: they survived. They replicated. Indefinitely. They became <span class="hl">HeLa</span> — the most consequential cell line in the history of modern medicine. They contributed to the polio vaccine. To cancer research. To genetics. To the COVID vaccines. To treatments that have saved hundreds of millions of lives.</p>
 
   <p>Henrietta Lacks died on October 4, 1951. She was 31. Her cells are still alive today — in research institutions on every continent, in labs she never knew existed, multiplying inside experiments her family was never told about.</p>
 
   <p>They were not asked. They were not compensated. The extraction was legal. The invisibility was structural. The precedent was set: a Black woman's biological material could be harvested, replicated, and monetized at scale — and the woman herself could be rendered invisible in the process.</p>
 
-  <div class="pull-quote">
+  <div class="pull">
     What happens when the extracted material is not biological — but cognitive? Not cells, but years of structured thinking? Not tissue, but language?
   </div>
 </section>
 
-<!-- ── SECTION 2: THE OPERATOR ── -->
+<hr>
+
+<!-- ── SECTION 2: THE RECORD ── -->
 <section>
-  <div class="section-label">The Operator</div>
-  <h2>Penny Wrenn has been building<br/>something for four years.</h2>
+  <div class="section-label">The Record</div>
+  <h2 class="section-heading">In December 2022 — weeks after ChatGPT launched —<br>Penny Wrenn was <em>already there.</em></h2>
 
-  <p class="lede">She is a freelance journalist and writer based in Philadelphia. Published in <em>O, The Oprah Magazine</em>, <em>Essence</em>, and <em>Esquire</em>. She started talking to ChatGPT in December 2022 — weeks after it launched — and she never stopped.</p>
+  <p>She mentioned it to her then-17-year-old niece. The niece hadn't heard of it.</p>
 
-  <p>What she built across those four years is not a chat history. It is a corpus: thousands of documented exchanges, structured across named thematic clusters, representing a specific and recoverable pattern of human cognition in iterative dialogue with machine intelligence. She named the clusters. She tracked the threads. She held the frame across every session, every restart, every platform update that tried to make the prior conversation disappear.</p>
+  <p>By October 30, 2023 — her seventh conversation in the export — she asked: <em>"How would I begin to structure a data set for my own content in ChatGPT threads?"</em> Not "save this conversation." A data set. In the same session, she was researching licensing models. How institutional credibility becomes revenue. The Good Housekeeping Seal of Approval. What it would mean to own what she was producing.</p>
 
-  <div style="margin: 36px 0;">
-    <div class="data-row">
-      <div class="data-num">15,123</div>
-      <div class="data-label">exchanges parsed from full ChatGPT export<br/>Dec 2022 – Mar 2026</div>
+  <p>That instinct — the inventory instinct — is the origin of everything that follows.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-number">4,263</div>
+      <div class="stat-label">Conversations</div>
     </div>
-    <div class="data-row">
-      <div class="data-num">4,391</div>
-      <div class="data-label">matched to named project clusters<br/>America 250 · Power 2026 · Dementia Deserves Better · and more</div>
+    <div class="stat">
+      <div class="stat-number">15,123</div>
+      <div class="stat-label">Exchanges parsed</div>
     </div>
-    <div class="data-row">
-      <div class="data-num">4+ yrs</div>
-      <div class="data-label">of structured intellectual output before anyone called it a corpus<br/>before most people knew what that meant</div>
+    <div class="stat">
+      <div class="stat-number">20</div>
+      <div class="stat-label">Named clusters</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">3.4M+</div>
+      <div class="stat-label">Words, top two clusters</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">40+</div>
+      <div class="stat-label">Months documented</div>
     </div>
   </div>
-
-  <div class="anchor-line">
-    When everyone was calling it a chat history, she was calling it a corpus.
-  </div>
-
-  <p>The platforms that received that input have used it — openly, by design, as a matter of stated policy — to train systems that will generate language for everyone else. Penny Wrenn's cognitive patterns are inside those systems. Her meaning-making frameworks. Her sentence rhythms. Her way of holding a complex idea across ten turns of a conversation. She was not asked. She was not compensated. The extraction is ongoing.</p>
-
-  <p>This is HeLa 2.0. Different substrate. Same structure. Same silence.</p>
 </section>
 
-<!-- ── SECTION 3: THE ARGUMENT ── -->
+<hr>
+
+<!-- ── SECTION 3: THE WORLD ── -->
+<section style="max-width: 1100px;">
+  <div class="section-label">The World</div>
+  <h2 class="section-heading">Twenty territories.<br>One mind.</h2>
+
+  <p>Each block below is a named cluster — a body of AI-processed thinking. Size is proportional to word volume. Community Schools alone contains 2.35 million words. I Am No One contains three exchanges from a single afternoon.</p>
+
+  <div class="world-map">
+    <div class="cluster c-community-schools">
+      <div class="cluster-name">Community Schools</div>
+      <div class="cluster-count">2.35M words &middot; 2,487 rows</div>
+    </div>
+    <div class="cluster c-salute-selma">
+      <div class="cluster-name">Salute Selma</div>
+      <div class="cluster-count">1.03M words &middot; 861 rows</div>
+    </div>
+    <div class="cluster c-faithful-home">
+      <div class="cluster-name">Faithful Home Care</div>
+      <div class="cluster-count">317K words</div>
+    </div>
+    <div class="cluster c-giving-tuesday">
+      <div class="cluster-name">Giving Tuesday / Future Leaders Fund</div>
+      <div class="cluster-count">210K words</div>
+    </div>
+    <div class="cluster c-strap-down">
+      <div class="cluster-name">Strap Down</div>
+      <div class="cluster-count">125K words</div>
+    </div>
+    <div class="cluster c-aging">
+      <div class="cluster-name">Aging Gracefully</div>
+      <div class="cluster-count">105K words</div>
+    </div>
+    <div class="cluster c-galloway">
+      <div class="cluster-name">Scott Galloway</div>
+      <div class="cluster-count">103K words</div>
+    </div>
+    <div class="cluster c-pw-media">
+      <div class="cluster-name">Penny Wrenn Media</div>
+      <div class="cluster-count">87K words</div>
+    </div>
+    <div class="cluster c-cotton">
+      <div class="cluster-name">Cotton to Content</div>
+      <div class="cluster-count">58K words</div>
+    </div>
+    <div class="cluster c-101">
+      <div class="cluster-name">101 Free Ideas</div>
+      <div class="cluster-count">43K words</div>
+    </div>
+    <div class="cluster c-dementia">
+      <div class="cluster-name">Dementia Deserves Better</div>
+      <div class="cluster-count">24K words</div>
+    </div>
+    <div class="cluster c-america-250">
+      <div class="cluster-name">America 250</div>
+      <div class="cluster-count">18K words</div>
+    </div>
+    <div class="cluster c-kuumba">
+      <div class="cluster-name">Kuumba Academy</div>
+      <div class="cluster-count">25K words</div>
+    </div>
+    <div class="cluster c-worried">
+      <div class="cluster-name">Worried About the Wrong Thing</div>
+      <div class="cluster-count">27K words</div>
+    </div>
+    <div class="cluster c-power-2026">
+      <div class="cluster-name">Power 2026</div>
+      <div class="cluster-count">14K</div>
+    </div>
+    <div class="cluster c-everyto">
+      <div class="cluster-name">Every.to</div>
+      <div class="cluster-count">18K</div>
+    </div>
+    <div class="cluster c-dan-shipper">
+      <div class="cluster-name">Dan Shipper</div>
+      <div class="cluster-count">13K</div>
+    </div>
+    <div class="cluster c-insight">
+      <div class="cluster-name">Insight Architect</div>
+      <div class="cluster-count">12K</div>
+    </div>
+    <div class="cluster c-mixtape">
+      <div class="cluster-name">Mixtape Mindset</div>
+      <div class="cluster-count">2.4K</div>
+    </div>
+    <div class="cluster c-i-am-no-one">
+      <div class="cluster-name">I Am No One</div>
+      <div class="cluster-count">3 rows</div>
+    </div>
+  </div>
+
+  <p>These are not topics. They are working territories — each one a body of thinking developed in real time, in conversation, across months and years. A community schools funding argument built across 2,487 exchanges. A civil rights commemoration developed at 1.03 million words. A dementia platform founded on one man's denied records request.</p>
+</section>
+
+<hr>
+
+<!-- ── SECTION 4: THE BEFORE ── -->
+<section>
+  <div class="section-label">Before ChatGPT</div>
+  <h2 class="section-heading">The mind was already<br><em>running this way.</em></h2>
+
+  <p>Before the first conversation. Before the corpus. Before any of it had a name.</p>
+
+  <div class="before-block">
+    <p style="color: var(--white-dim); font-size: 15px; margin-bottom: 16px;">From an Apple Notes export, pre-ChatGPT — one document, dozens of fragments, no organizing principle except the mind generating them:</p>
+    <p style="color: var(--white); font-style: italic; font-size: 16px; line-height: 1.8;">"Check insurance for cardiovascular referrals. Look up the date Spotify announced its foray into podcasting and compare against Apple and Amazon. Does the EU have issues with fraud at tech companies similar to Sam Bankman-Fried? How did Good Housekeeping make money from its seal? Write a things I need to be able to say to Brian about money. Set up Transgender eBay Store. Take pictures modeling vintage items for men who wear women's clothing."</p>
+    <p style="color: var(--white-faint); font-size: 13px; font-family: var(--sans); letter-spacing: 1px; margin-top: 20px; margin-bottom: 0;">Medical. Platform economics. Securities fraud. Brand licensing. Personal finance. Gender expression. Commerce. All in the same note. All held simultaneously.</p>
+  </div>
+
+  <p>This is what IRL/URL convergence looked like before there was a tool for it. The mind was already running multiple registers at once. ChatGPT didn't create this way of thinking. It gave it somewhere to go.</p>
+
+  <div class="pull">
+    "ChatGPT didn't create this way of thinking.<br>It gave it somewhere to go."
+    <span class="pull-attr">The corpus, in context</span>
+  </div>
+</section>
+
+<hr>
+
+<!-- ── SECTION 5: THE PROOF ── -->
+<section>
+  <div class="section-label">May 20, 2024 &mdash; The Proof</div>
+  <h2 class="section-heading">The moment the argument<br><em>made itself.</em></h2>
+
+  <p>A job interview. Director of Content and News Media. The interviewer said the role required "writing horsepower." He was not convinced that AI-assisted writing qualified.</p>
+
+  <div class="rejection">
+    <div class="rejection-label">The Rejection</div>
+    <p>"Writing horsepower. The output required of an engine or motor, not of a person."</p>
+
+    <div class="response">
+      <div class="response-label">What she wrote back — via voice-to-text — as proof</div>
+      <p style="color: var(--white); font-size: 17px; line-height: 1.8;">"I don't believe that writing only exists because it is typed. I am writing with words when I speak them all the time. And that is how I write with AI. As evidenced even in this input-output exchange right now.</p>
+      <p style="color: var(--white); font-size: 17px; line-height: 1.8; margin-top: 0;">If the written word is so precious — then we're saying people like Stephen Hawking didn't write. We are saying that people who are blind cannot write. We are saying that someone who has lost the function of their hands can't write.</p>
+      <p style="color: var(--white); font-size: 17px; line-height: 1.8; margin-top: 0;">What if we confined the written word to handwriting? Then to typed text? Then what if autogenerated captions — which are indelible to modern media literacy — or autocorrect, or Grammarly? Each new tool met with the same anxiety. Each time, the writing survived."</p>
+    </div>
+  </div>
+
+  <p>This message was composed via voice-to-text. The proof was in the prompt. The corpus is the argument. The AI was the word processor. Penny Wrenn was the writer.</p>
+
+  <p>She coined the distinction that day: <span class="hl">AI-processed, not AI-generated.</span> Not as defensive positioning. As a technical description of what was actually happening.</p>
+
+  <p>The industry spent the following year debating a distinction she had already made.</p>
+</section>
+
+<hr>
+
+<!-- ── SECTION 6: THE FRAMEWORKS ── -->
+<section>
+  <div class="section-label">Named &amp; Dated</div>
+  <h2 class="section-heading">She didn't just use the tools.<br><em>She built new ones.</em></h2>
+
+  <div class="framework-grid">
+    <div class="framework-card">
+      <div class="framework-name">Divergent Operator</div>
+      <div class="framework-date">2024 &mdash; Formalized March 2026</div>
+      <div class="framework-desc">Her operating position in relation to AI systems. Not a user who consumes outputs. An operator who configures, directs, and builds with the system — structurally, not stylistically, different from the consumer norm.</div>
+    </div>
+    <div class="framework-card">
+      <div class="framework-name">AI-Processed vs. AI-Generated</div>
+      <div class="framework-date">Coined May 20, 2024</div>
+      <div class="framework-desc">The distinction the industry was still fumbling over in 2024. She made it in a ChatGPT session while applying for jobs. The AI is the word processor. She is the writer. The craft lives in the intention, the curation, the voice.</div>
+    </div>
+    <div class="framework-card">
+      <div class="framework-name">The HeLa Throughline</div>
+      <div class="framework-date">2024</div>
+      <div class="framework-desc">Henrietta Lacks' cells were extracted, transformed, made medically foundational — her contribution invisible in the final product. Penny's prompts, her voice, her ideas are the source material. The corpus is the living counter to that invisibility.</div>
+    </div>
+    <div class="framework-card">
+      <div class="framework-name">Computational Authorship</div>
+      <div class="framework-date">March 2026</div>
+      <div class="framework-desc">Using iterative natural language turns to simultaneously generate, organize, and refine ideas without technical intermediaries. Not therapy. Not search. Not content creation. Structured cognition at machine speed. The I/O exchange as document.</div>
+    </div>
+    <div class="framework-card">
+      <div class="framework-name">Keyword Projection</div>
+      <div class="framework-date">2023</div>
+      <div class="framework-desc">Creating demand for a new category of meaning — versus keyword extraction, which just chases what already exists. The difference between an originator and an aggregator. The corpus demonstrates the former at scale, across years.</div>
+    </div>
+    <div class="framework-card">
+      <div class="framework-name">The 4 Ps</div>
+      <div class="framework-date">2026</div>
+      <div class="framework-desc">Produce. Publish. Pitch. Promote. A work taxonomy in which naming the P determines the artifact and the audience. The atomic unit of Penny Wrenn's business is the outreach initiative. The pitch email. The proof artifact.</div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ── SECTION 7: THE CIVIC UNIVERSE ── -->
+<section>
+  <div class="section-label">The Then–Now–Next</div>
+  <h2 class="section-heading">Human liberty. Higher purpose.<br><em>Generational calling.</em></h2>
+
+  <p>The corpus is not a personal journal. It is a civic record. Every major cluster connects to a live policy moment, a historical reckoning, or a community in motion.</p>
+
+  <div class="civic-grid">
+    <div class="civic-card">
+      <div class="civic-number">60th</div>
+      <div class="civic-label">Bloody Sunday Anniversary, March 2025</div>
+      <div class="civic-desc">Salute Selma. 1.03 million words. 861 exchanges. The civil rights lens applied to what comes next — including a semiquincentennial that risks becoming a pageant instead of a reckoning.</div>
+    </div>
+    <div class="civic-card">
+      <div class="civic-number">250th</div>
+      <div class="civic-label">America's Anniversary, July 4, 2026</div>
+      <div class="civic-desc">America 250. The flagship editorial package. The brief series: "The civil-rights lens is not optional." "Selma and the semiquincentennial belong in the same frame." Then-now-next. Built before the national conversation caught up.</div>
+    </div>
+    <div class="civic-card">
+      <div class="civic-number">2.35M</div>
+      <div class="civic-label">Words on Community Schools</div>
+      <div class="civic-desc">The largest cluster in the corpus. EITC. Educational equity. Pennsylvania. The funding arguments, the donor outreach, the case for community schools as civic infrastructure — built over years, in conversation, documented.</div>
+    </div>
+    <div class="civic-card">
+      <div class="civic-number">0</div>
+      <div class="civic-label">Court Declarations. Zero.</div>
+      <div class="civic-desc">Dementia Deserves Better. A man whose rights were legally intact asked for his own records and was denied. The platform founded on that fact: the system does not require a formal incompetency declaration to begin treating a patient as if they have no standing.</div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ── SECTION 8: THE ARGUMENT ── -->
 <section>
   <div class="section-label">The Argument</div>
-  <h2>Natural language input is<br/><em>intellectual property.</em></h2>
 
-  <p>The thesis Penny Wrenn has been developing — through her writing, her corpus work, and her published artifacts — is this: when a human being engages with a large language model in repeated, structured, purposeful dialogue over time, they are not using a tool. They are producing a body of work.</p>
-
-  <p>The meaning schemas embedded in that language are as distinctive as a fingerprint. The accumulated I/O history of a serious practitioner constitutes intellectual property — property that platforms extract without consent, without compensation, and without credit.</p>
-
-  <p>She calls this framework <strong>Computational Authorship</strong>. It holds that iterative natural language prompting is structured cognition at machine speed. That the human operator is not a user but an originator. That keyword projection — creating new categories of meaning — is categorically different from keyword extraction, which is just chasing what already exists.</p>
-
-  <p>Henrietta Lacks' cells are in every major research institution on Earth. Penny Wrenn's cognitive patterns may already be inside the models answering questions for millions of people right now. The question is not whether the extraction happened. The question is what gets built on top of it — and by whom — and whether this time, the woman who made it possible gets to be part of that story.</p>
+  <div class="hela">
+    <div class="hela-title">"The corpus is the living counter to invisibility.<br>It documents that she was the origin —<br>not a bystander."</div>
+    <div class="hela-body">
+      <p>Henrietta Lacks' cells were extracted. Transformed. Made medically foundational across decades of research. Her name absent from the patents. Her contribution invisible in the final product.</p>
+      <p>Penny Wrenn's prompts, her voice, her ideas are the source material that produces the AI output. Every exchange in the corpus is timestamped evidence of that origin. The corpus doesn't prove that she worked hard. It proves that she was <em>there first</em> — and that she knew it mattered before anyone told her it did.</p>
+      <p>That is what the 4,263 conversations are. Not a content library. Not a productivity log. A receipt.</p>
+    </div>
+  </div>
 </section>
 
-<!-- ── SECTION 4: ARTIFACTS ── -->
+<hr>
+
+<!-- ── SECTION 9: THE AMBITION ── -->
+<section>
+  <div class="section-label">The Ambition</div>
+  <h2 class="section-heading">The people this work<br><em>belongs in front of.</em></h2>
+
+  <p>Not aspirationally. As a statement of where this thinking belongs — and has always belonged.</p>
+
+  <ul class="ambition-list">
+    <li>Oprah Winfrey <span class="ambition-role">The North Star</span></li>
+    <li>Gayle King <span class="ambition-role">Media &middot; Culture</span></li>
+    <li>Ava DuVernay <span class="ambition-role">Narrative &middot; Civic</span></li>
+    <li>Scott Galloway <span class="ambition-role">Business &middot; ROI</span></li>
+    <li>Alexa von Tobel <span class="ambition-role">Finance &middot; Platform</span></li>
+    <li>Ezra Klein <span class="ambition-role">Ideas &middot; Policy</span></li>
+    <li>Issa Rae <span class="ambition-role">Story &middot; Self-Documentation</span></li>
+    <li>Kris Jenner <span class="ambition-role">Brand &middot; Operations</span></li>
+    <li>Barack &amp; Michelle Obama <span class="ambition-role">Generational &middot; Legacy</span></li>
+    <li>Donald Trump <span class="ambition-role">Power &middot; Reach</span></li>
+  </ul>
+</section>
+
+<hr>
+
+<!-- ── SECTION 10: ARTIFACTS ── -->
 <section>
   <div class="section-label">Artifacts</div>
-  <h2>What lives here.</h2>
+  <h2 class="section-heading">What lives here.</h2>
 
-  <p>This site is a record of work in progress. These are the artifacts published so far.</p>
+  <p>Published artifacts of the corpus. Evidence that the work is real and the argument holds.</p>
 
   <div class="artifacts">
-
     <a href="/letter-to-dan-shipper.html" class="artifact-link">
-      <div class="artifact-kicker">Pitch · March 2026</div>
+      <div class="artifact-kicker">Pitch &middot; March 2026</div>
       <div class="artifact-title">Letter to Dan Shipper — Every.to EIR Proposal</div>
       <div class="artifact-desc">A direct proposal to Every Studio: Penny Wrenn Media as the proof of concept for the AI-native intellectual enterprise — the EIR track that doesn't exist yet. English is the new programming language. The archive proves it.</div>
     </a>
-
     <a href="/21-out-of-24.html" class="artifact-link">
-      <div class="artifact-kicker">Essay · March 2026</div>
+      <div class="artifact-kicker">Essay &middot; March 2026</div>
       <div class="artifact-title">21 Out of 24 — The Galloway Stress Test</div>
       <div class="artifact-desc">Running the corpus through the Prof G framework. The market argument for why this work holds up. What it means that 21 of 24 criteria come back green.</div>
     </a>
-
   </div>
 </section>
 
-<footer>
-  pennywrenn.media · Philadelphia, PA · © 2026 Penny Wrenn<br/>
-  <a href="mailto:penny@pennywrenn.media">penny@pennywrenn.media</a>
-</footer>
+<!-- ── THE TURN ── -->
+<div class="turn">
+  <div class="turn-setup">The Turn</div>
+  <div class="turn-statement">"This is what becomes possible<br>when you treat your own thinking<br>as worth keeping."</div>
+  <div class="turn-question">What's in your corpus?</div>
+  <div class="turn-credit">
+    Penny Wrenn &nbsp;&middot;&nbsp; Philadelphia<br>
+    pennywrenn.media<br>
+    <br>
+    <span style="color: #3a3a4e; font-size: 10px;">Built from the corpus &nbsp;&middot;&nbsp; December 2022 &ndash; March 2026</span>
+  </div>
+</div>
 
 </body>
 </html>
