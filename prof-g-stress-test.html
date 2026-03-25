@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Prof G Stress Test — Does Your Idea Have What It Takes?</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --charcoal: #1a1a1a;
+    --dark: #242424;
+    --mid: #3a3a3a;
+    --border: #444;
+    --gold: #d4a017;
+    --gold-light: #f0c040;
+    --red: #c0392b;
+    --green: #27ae60;
+    --white: #f8f8f8;
+    --grey: #999;
+    --light-grey: #ccc;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Georgia', serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--charcoal);
+    border-bottom: 3px solid var(--gold);
+    padding: 40px 20px;
+    text-align: center;
+  }
+  .header-eyebrow {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .header h1 span { color: var(--gold); }
+  .header-sub {
+    font-size: 1.1rem;
+    color: var(--grey);
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto 24px;
+  }
+  .header-stat-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .header-stat { text-align: center; }
+  .header-stat-num {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--gold);
+  }
+  .header-stat-label {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  /* INTRO */
+  .intro {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 50px 20px;
+    text-align: center;
+  }
+  .intro p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--light-grey);
+    margin-bottom: 16px;
+  }
+  .intro p strong { color: var(--white); }
+  .intro blockquote {
+    border-left: 4px solid var(--gold);
+    padding: 16px 24px;
+    margin: 32px 0;
+    background: var(--charcoal);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--white);
+    font-size: 1.1rem;
+    text-align: left;
+  }
+  .intro blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: var(--gold);
+    font-style: normal;
+    font-family: 'Helvetica Neue', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  /* START BUTTON */
+  .start-container { text-align: center; padding: 0 20px 60px; }
+  .btn-start {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 18px 48px;
+    font-size: 1.1rem;
+    font-weight: 900;
+    font-family: 'Helvetica Neue', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .btn-start:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* QUIZ CONTAINER */
+  .quiz-container {
+    display: none;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+  .quiz-container.active { display: block; }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    background: var(--dark);
+    border-radius: 4px;
+    height: 6px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-label {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 8px;
+  }
+
+  /* QUESTION */
+  .question-card {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .question-card.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .question-number {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .question-category {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 20px;
+    padding-left: 2px;
+  }
+  .question-text {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+  .question-subtext {
+    font-size: 0.95rem;
+    color: var(--grey);
+    font-style: italic;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  /* OPTIONS */
+  .options { display: flex; flex-direction: column; gap: 12px; }
+  .option-btn {
+    background: var(--charcoal);
+    border: 2px solid var(--border);
+    color: var(--white);
+    padding: 18px 24px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  .option-btn:hover { border-color: var(--gold); background: var(--dark); }
+  .option-btn.selected { border-color: var(--gold); background: var(--dark); }
+  .option-btn.correct { border-color: var(--green); background: rgba(39,174,96,0.1); }
+  .option-btn.wrong { border-color: var(--red); background: rgba(192,57,43,0.08); opacity: 0.6; }
+  .option-score {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+    display: block;
+    margin-top: 6px;
+  }
+  .option-btn.correct .option-score { color: var(--green); }
+
+  .galloway-take {
+    display: none;
+    background: var(--dark);
+    border-left: 4px solid var(--gold);
+    padding: 16px 20px;
+    margin-top: 20px;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: var(--light-grey);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    animation: fadeIn 0.3s ease;
+  }
+  .galloway-take.visible { display: block; }
+  .galloway-take strong { color: var(--gold); font-style: normal; font-family: 'Helvetica Neue', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px; }
+
+  .btn-next {
+    display: none;
+    margin-top: 28px;
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    padding: 14px 36px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: 'Helvetica Neue', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .btn-next:hover { background: var(--gold); color: var(--black); }
+  .btn-next.visible { display: inline-block; }
+
+  /* RESULTS */
+  .results-container {
+    display: none;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    animation: fadeIn 0.5s ease;
+  }
+  .results-container.active { display: block; }
+
+  .score-display {
+    text-align: center;
+    padding: 50px 20px;
+    background: var(--charcoal);
+    border: 3px solid var(--gold);
+    border-radius: 8px;
+    margin-bottom: 40px;
+  }
+  .score-number {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: clamp(4rem, 10vw, 7rem);
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .score-max {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 1rem;
+    color: var(--grey);
+    margin-bottom: 24px;
+  }
+  .score-verdict {
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  .score-subverdict {
+    font-size: 1rem;
+    color: var(--grey);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* BREAKDOWN */
+  .breakdown-title {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 560px) { .breakdown-grid { grid-template-columns: 1fr; } }
+  .breakdown-item {
+    background: var(--charcoal);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+  }
+  .breakdown-category {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 8px;
+  }
+  .breakdown-answer { font-size: 0.95rem; color: var(--white); margin-bottom: 8px; line-height: 1.4; }
+  .breakdown-score-bar {
+    height: 4px;
+    background: var(--dark);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .breakdown-score-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1s ease 0.5s;
+  }
+
+  /* NEXT STEPS */
+  .next-steps {
+    background: var(--charcoal);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+  .next-steps h3 {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  .next-steps ul { list-style: none; }
+  .next-steps li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--light-grey);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    padding-left: 20px;
+    position: relative;
+  }
+  .next-steps li:last-child { border-bottom: none; }
+  .next-steps li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+
+  .btn-retake {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 16px 40px;
+    font-size: 1rem;
+    font-weight: 900;
+    font-family: 'Helvetica Neue', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .btn-retake:hover { background: var(--gold-light); }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 20px;
+    text-align: center;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  .footer span { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-eyebrow">Penny Wrenn × Scott Galloway Framework</div>
+  <h1>The <span>Prof G</span><br>Stress Test</h1>
+  <p class="header-sub">8 questions. No flattery. The same analytical framework Scott Galloway uses to separate ideas that matter from ideas that don't.</p>
+  <div class="header-stat-row">
+    <div class="header-stat">
+      <div class="header-stat-num">8</div>
+      <div class="header-stat-label">Dimensions</div>
+    </div>
+    <div class="header-stat">
+      <div class="header-stat-num">24</div>
+      <div class="header-stat-label">Points Possible</div>
+    </div>
+    <div class="header-stat">
+      <div class="header-stat-num">5</div>
+      <div class="header-stat-label">Verdicts</div>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro" id="intro-section">
+  <p>Scott Galloway has one question underneath every question he asks: <strong>Does the math work?</strong> Not the dream. Not the vision deck. The math.</p>
+  <p>Market size. Demographic tailwinds. Margin profile. Differentiation. Distribution. Capital efficiency. Narrative. Founder-market fit. Eight dimensions. Each one is a door. Most ideas don't make it through all eight.</p>
+  <blockquote>
+    "The biggest thing we get wrong about success is thinking it has something to do with the quality of the idea. The world is littered with great ideas. What matters is whether you have the unfair advantages to execute at scale."
+    <cite>— Scott Galloway</cite>
+  </blockquote>
+  <p>This tool runs your idea through the framework. Answer honestly. The score tells you where you stand — and more importantly, <strong>where the holes are.</strong></p>
+</div>
+
+<div class="start-container" id="start-section">
+  <button class="btn-start" onclick="startQuiz()">Run the Stress Test →</button>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-container" id="quiz-section">
+  <div class="progress-label" id="progress-label">Question 1 of 8</div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-bar"></div>
+  </div>
+
+  <!-- Q1: Market Size -->
+  <div class="question-card active" id="q1">
+    <div class="question-number">Question 01</div>
+    <div class="question-category">Dimension: Market Size</div>
+    <div class="question-text">How large is the market you're addressing?</div>
+    <div class="question-subtext">Galloway's rule: if the market isn't at least $10B, the upside can't justify the risk. He's not interested in winning a small pond.</div>
+    <div class="options">
+      <button class="option-btn" onclick="selectAnswer(this, 3, 'q1', '$10B+ TAM — and it\'s growing')"><span>$10B+ total addressable market — and the demographic trend is moving toward it, not away from it</span><span class="option-score">3 pts — The tide is with you</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 2, 'q1', '$1B–$10B market')"><span>$1B–$10B — real market, meaningful upside, but not category-defining</span><span class="option-score">2 pts — Solid, not spectacular</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 1, 'q1', '$100M–$1B niche')"><span>$100M–$1B — niche but knowable, with room to expand</span><span class="option-score">1 pt — You'll need to grow the pond</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 0, 'q1', 'Under $100M')"><span>Under $100M — or I haven't done the math yet</span><span class="option-score">0 pts — Not a venture, it's a lifestyle business</span></button>
+    </div>
+    <div class="galloway-take" id="take-q1">
+      <strong>Prof G Would Say</strong>
+      <span id="take-text-q1"></span>
+    </div>
+    <button class="btn-next" id="next-q1" onclick="nextQuestion(1)">Next Question →</button>
+  </div>
+
+  <!-- Q2: Demographic Tailwind -->
+  <div class="question-card" id="q2">
+    <div class="question-number">Question 02</div>
+    <div class="question-category">Dimension: Demographic Tailwind</div>
+    <div class="question-text">Which demographic wave does your idea ride?</div>
+    <div class="question-subtext">Demographics are destiny. The strongest ideas align with a population that's growing, aging, or gaining economic power — not declining.</div>
+    <div class="options">
+      <button class="option-btn" onclick="selectAnswer(this, 3, 'q2', 'Rides a massive demographic wave (aging boomers, Gen Z wealth transfer, emerging Black middle class, etc.)')"><span>Strong tailwind — aging boomers, Gen Z economic ascent, the $13T Black wealth transfer, rising Latino electorate. My idea is in their path.</span><span class="option-score">3 pts — Surfing the right wave</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 2, 'q2', 'Demographic tailwind exists but is secondary to the offering')"><span>Tailwind exists — it's not the primary story, but the demographic trend supports adoption</span><span class="option-score">2 pts — Aligned, not driven</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 1, 'q2', 'Neutral — serves a demographic that isn\'t growing or shrinking')"><span>Neutral — serves a demographic that's stable but not surging</span><span class="option-score">1 pt — You'll have to create your own wind</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 0, 'q2', 'Swimming upstream against demographic trends')"><span>Upstream — the demographic is declining, fragmented, or economically contracting</span><span class="option-score">0 pts — Gravity is against you</span></button>
+    </div>
+    <div class="galloway-take" id="take-q2">
+      <strong>Prof G Would Say</strong>
+      <span id="take-text-q2"></span>
+    </div>
+    <button class="btn-next" id="next-q2" onclick="nextQuestion(2)">Next Question →</button>
+  </div>
+
+  <!-- Q3: Differentiation -->
+  <div class="question-card" id="q3">
+    <div class="question-number">Question 03</div>
+    <div class="question-category">Dimension: Differentiation</div>
+    <div class="question-text">What's your actual moat?</div>
+    <div class="question-subtext">"First mover" is not a moat. "Better product" is not a moat. A moat is something structural that makes it hard for the next person to duplicate what you've built.</div>
+    <div class="options">
+      <button class="option-btn" onclick="selectAnswer(this, 3, 'q3', 'Proprietary data, IP, or lived-experience advantage that cannot be replicated')"><span>Proprietary data, documented IP, or a lived-experience advantage that cannot be replicated — the corpus, the fingerprint, the archive</span><span class="option-score">3 pts — That's a real moat</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 2, 'q3', 'Network effects or cultural positioning that compounds over time')"><span>Network effects or cultural positioning — gets harder to displace the more people adopt it</span><span class="option-score">2 pts — Defensible, if you build fast enough</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 1, 'q3', 'Brand and narrative are the primary differentiation')"><span>Brand and narrative — strong story, credible POV, but not yet structural</span><span class="option-score">1 pt — Brand without distribution is just a nice poster</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 0, 'q3', 'First mover or "better product" — no structural moat yet')"><span>First mover advantage or a better product — which means anyone with resources can catch up</span><span class="option-score">0 pts — That's not a moat, that's a head start</span></button>
+    </div>
+    <div class="galloway-take" id="take-q3">
+      <strong>Prof G Would Say</strong>
+      <span id="take-text-q3"></span>
+    </div>
+    <button class="btn-next" id="next-q3" onclick="nextQuestion(3)">Next Question →</button>
+  </div>
+
+  <!-- Q4: Margin -->
+  <div class="question-card" id="q4">
+    <div class="question-number">Question 04</div>
+    <div class="question-category">Dimension: Margin Profile</div>
+    <div class="question-text">What's the gross margin ceiling of this business?</div>
+    <div class="question-subtext">Margin is the oxygen. Software is 80%+. Media can be 60-70%. Physical products rarely clear 40%. Galloway builds businesses where every additional dollar of revenue costs almost nothing to produce.</div>
+    <div class="options">
+      <button class="option-btn" onclick="selectAnswer(this, 3, 'q4', '70%+ gross margin — software, media, data, IP licensing')"><span>70%+ — software, media, IP licensing, or data products. The work scales without scaling the cost.</span><span class="option-score">3 pts — This is a real business</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 2, 'q4', '40–70% — services, consulting, managed products')"><span>40–70% — services or managed products. Real margin, but you're selling time at some point.</span><span class="option-score">2 pts — Watch your utilization</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 1, 'q4', '20–40% — physical products or low-margin services')"><span>20–40% — physical products or commoditized services. Thin, but viable at scale.</span><span class="option-score">1 pt — You need scale quickly</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 0, 'q4', 'Under 20% or haven\'t modeled it')"><span>Under 20% — or I haven't modeled the margin yet</span><span class="option-score">0 pts — Model the margin before you pitch anyone</span></button>
+    </div>
+    <div class="galloway-take" id="take-q4">
+      <strong>Prof G Would Say</strong>
+      <span id="take-text-q4"></span>
+    </div>
+    <button class="btn-next" id="next-q4" onclick="nextQuestion(4)">Next Question →</button>
+  </div>
+
+  <!-- Q5: Distribution -->
+  <div class="question-card" id="q5">
+    <div class="question-number">Question 05</div>
+    <div class="question-category">Dimension: Distribution</div>
+    <div class="question-text">Do you have unfair access to customers?</div>
+    <div class="question-subtext">Distribution beats product. The best idea without a distribution channel is a manuscript in a drawer. The question isn't how good the product is — it's whether you can get it in front of people.</div>
+    <div class="options">
+      <button class="option-btn" onclick="selectAnswer(this, 3, 'q5', 'Existing platform, audience, or institutional access that others would have to build from scratch')"><span>Existing platform, audience, or institutional relationships that give me a lane others would have to build from scratch</span><span class="option-score">3 pts — The hardest problem is already solved</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 2, 'q5', 'Strong partnerships or licensing deals that open doors')"><span>Strategic partnerships or licensing deals that open distribution channels without me building them</span><span class="option-score">2 pts — Leverage the leverage</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 1, 'q5', 'Clear earned-media or SEO strategy, no paid acquisition needed')"><span>Clear earned-media strategy — I can generate press or organic reach without paid acquisition</span><span class="option-score">1 pt — Slow but real</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 0, 'q5', 'Cold outreach and paid ads — no distribution moat')"><span>Cold outreach and paid ads — I haven't figured out distribution yet</span><span class="option-score">0 pts — Ideas without distribution are just hobbies</span></button>
+    </div>
+    <div class="galloway-take" id="take-q5">
+      <strong>Prof G Would Say</strong>
+      <span id="take-text-q5"></span>
+    </div>
+    <button class="btn-next" id="next-q5" onclick="nextQuestion(5)">Next Question →</button>
+  </div>
+
+  <!-- Q6: Capital Efficiency -->
+  <div class="question-card" id="q6">
+    <div class="question-number">Question 06</div>
+    <div class="question-category">Dimension: Capital Efficiency</div>
+    <div class="question-text">How much capital does it take to reach meaningful revenue?</div>
+    <div class="question-subtext">Galloway respects capital efficiency — especially when the founder isn't coming from wealth. The less capital required to validate the model, the more power stays with the creator.</div>
+    <div class="options">
+      <button class="option-btn" onclick="selectAnswer(this, 3, 'q6', 'Bootstrappable — can reach meaningful revenue with under $50K')"><span>Bootstrappable — can reach meaningful revenue or proof of concept with under $50K and existing resources</span><span class="option-score">3 pts — Leverage without dilution</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 2, 'q6', 'Seed-scale — $250K–$1M gets to traction')"><span>Seed-scale — $250K to $1M gets the model to real traction</span><span class="option-score">2 pts — Fundable thesis</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 1, 'q6', 'Series A required — $2M–$5M before product-market fit')"><span>Series A required — $2M to $5M before product-market fit is established</span><span class="option-score">1 pt — Better have the story tight</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 0, 'q6', 'Requires massive infrastructure investment before any revenue')"><span>Infrastructure-first — requires massive upfront investment before any revenue is generated</span><span class="option-score">0 pts — You're pitching a prayer</span></button>
+    </div>
+    <div class="galloway-take" id="take-q6">
+      <strong>Prof G Would Say</strong>
+      <span id="take-text-q6"></span>
+    </div>
+    <button class="btn-next" id="next-q6" onclick="nextQuestion(6)">Next Question →</button>
+  </div>
+
+  <!-- Q7: Narrative -->
+  <div class="question-card" id="q7">
+    <div class="question-number">Question 07</div>
+    <div class="question-category">Dimension: Narrative</div>
+    <div class="question-text">Can you say why this matters in one sentence — without buzzwords?</div>
+    <div class="question-subtext">Not the elevator pitch. Not the mission statement. One honest sentence that explains who is winning, who is losing, and why your idea changes that.</div>
+    <div class="options">
+      <button class="option-btn" onclick="selectAnswer(this, 3, 'q7', 'One clear sentence that names the winner, the loser, and the shift')"><span>Yes — one sentence that names who wins, who loses, and what changes. I can say it out loud to anyone and it lands.</span><span class="option-score">3 pts — The narrative does the selling</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 2, 'q7', 'Clear with context — 2–3 sentences and a smart person gets it immediately')"><span>Two to three sentences, and a smart person gets it immediately</span><span class="option-score">2 pts — Tighten it</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 1, 'q7', 'Clear to people already in the space — requires industry knowledge to appreciate')"><span>Clear to insiders — but requires industry context to appreciate the problem being solved</span><span class="option-score">1 pt — You're writing for yourself</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 0, 'q7', 'Still working on articulating it — or it requires a deck to explain')"><span>Still working on articulating it — or it requires a full deck to understand</span><span class="option-score">0 pts — If you can't say it, you don't know what it is yet</span></button>
+    </div>
+    <div class="galloway-take" id="take-q7">
+      <strong>Prof G Would Say</strong>
+      <span id="take-text-q7"></span>
+    </div>
+    <button class="btn-next" id="next-q7" onclick="nextQuestion(7)">Next Question →</button>
+  </div>
+
+  <!-- Q8: Founder-Market Fit -->
+  <div class="question-card" id="q8">
+    <div class="question-number">Question 08</div>
+    <div class="question-category">Dimension: Founder–Market Fit</div>
+    <div class="question-text">Why are <em>you</em> the one who builds this?</div>
+    <div class="question-subtext">Galloway's last question is always the hardest one. Great markets with the wrong founder is still a bad bet. Founder-market fit is the X factor the spreadsheet can't capture.</div>
+    <div class="options">
+      <button class="option-btn" onclick="selectAnswer(this, 3, 'q8', 'Documented lived experience + unique access + 20+ years of pre-existing practice in this space')"><span>Documented lived experience, unique access, and 20+ years of pre-existing practice — the corpus, the archive, the fingerprint. The work predates the conversation.</span><span class="option-score">3 pts — The unfair advantage is you</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 2, 'q8', 'Deep domain expertise and relevant professional track record')"><span>Deep domain expertise and a verifiable professional track record in this exact space</span><span class="option-score">2 pts — Credible, go build</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 1, 'q8', 'Adjacent experience — credible leap but not the obvious choice')"><span>Adjacent experience — a credible leap, but I'm not the most obvious person for this</span><span class="option-score">1 pt — Make the case harder</span></button>
+      <button class="option-btn" onclick="selectAnswer(this, 0, 'q8', 'Passionate about the space — but no specific advantage over others')"><span>I'm passionate about this — but I don't have a specific structural advantage over the next person who gets excited about it</span><span class="option-score">0 pts — Passion is table stakes. Why you?</span></button>
+    </div>
+    <div class="galloway-take" id="take-q8">
+      <strong>Prof G Would Say</strong>
+      <span id="take-text-q8"></span>
+    </div>
+    <button class="btn-next" id="next-q8" onclick="showResults()">See My Score →</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="results-container" id="results-section">
+  <div class="score-display">
+    <div class="score-number" id="final-score">—</div>
+    <div class="score-max">out of 24</div>
+    <div class="score-verdict" id="final-verdict">—</div>
+    <div class="score-subverdict" id="final-subverdict">—</div>
+  </div>
+
+  <div class="breakdown-title">Score Breakdown</div>
+  <div class="breakdown-grid" id="breakdown-grid"></div>
+
+  <div class="next-steps" id="next-steps-section">
+    <h3>What Galloway Would Tell You to Do Next</h3>
+    <ul id="next-steps-list"></ul>
+  </div>
+
+  <div style="text-align:center; margin-bottom: 24px;">
+    <button class="btn-retake" onclick="retakeQuiz()">Retake the Test →</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  Built from <span>103,000 words</span> of Penny Wrenn's Scott Galloway corpus cluster · <span>pennywrenn.com</span>
+</div>
+
+<script>
+const questions = [
+  {
+    id: 'q1', category: 'Market Size',
+    takes: {
+      3: "Now we're talking. Big market + demographic tailwind is the only cocktail that makes the risk worth taking. Tell me the unit economics.",
+      2: "Respectable. Not a moonshot, but this isn't a waste of my time. Show me the path to category leadership.",
+      1: "It's a real business. But the ceiling is low. Either you expand the addressable market or you stay small and scrappy. Know which one you're building.",
+      0: "I don't care how good the product is. If the math doesn't start with a real number, this conversation ends here."
+    }
+  },
+  {
+    id: 'q2', category: 'Demographic Tailwind',
+    takes: {
+      3: "Demographics are destiny. If the wave is real and you're in front of it, the market will come to you. Don't screw up the execution.",
+      2: "Not nothing. But you're going to have to work for every customer rather than being carried by the current. That's exhausting.",
+      1: "Neutral demographics means you're competing on merit alone. That's noble. It's also hard. Make sure the product is extraordinary.",
+      0: "Swimming upstream in a demographic current that's against you is a 10-year war of attrition. I've seen smarter people lose that fight."
+    }
+  },
+  {
+    id: 'q3', category: 'Differentiation',
+    takes: {
+      3: "That's an actual moat. Now the question is whether you can build fast enough and distribute wide enough before someone tries to replicate the model.",
+      2: "Network effects are real, but they take time to kick in. You're vulnerable until the flywheel spins. How long can you hold the ground?",
+      1: "Brand is a moat, but it's the most fragile kind. One bad press cycle, one better-funded competitor with a similar story, and you're starting over.",
+      0: "I've funded a hundred companies that thought 'first mover' was a strategy. Most of them are dead. Come back when you have a real structural advantage."
+    }
+  },
+  {
+    id: 'q4', category: 'Margin Profile',
+    takes: {
+      3: "This is where fortunes are built. High-margin businesses give you the capital to reinvest, the flexibility to be wrong twice, and the leverage to grow without selling your soul to investors.",
+      2: "Forty to seventy percent is respectable. Manage your utilization. Don't let services companies masquerade as software companies in their pitch materials.",
+      1: "Thin margins are a treadmill. You can run on it forever without getting anywhere. The exit at this margin profile is acquisition, not IPO. Know your destination.",
+      0: "If you haven't modeled the margin, you don't have a business plan. You have a wish. Model it tonight. Pitch me next week."
+    }
+  },
+  {
+    id: 'q5', category: 'Distribution',
+    takes: {
+      3: "Distribution is the only moat that compounds faster than the competition can respond. If you already have the channel, the product question is almost secondary.",
+      2: "Partnerships are powerful but fragile. You're one relationship change away from losing the channel. Build your own audience in parallel.",
+      1: "Earned media is real but slow. It's a long game strategy in a world where your competitors are buying speed. Make sure you have the runway.",
+      0: "The graveyard of great ideas is full of founders who built something nobody could find. Distribution is the only problem. Solve it or die."
+    }
+  },
+  {
+    id: 'q6', category: 'Capital Efficiency',
+    takes: {
+      3: "Bootstrappable with high margin is the holy grail of founder economics. You keep the equity, you keep the control, you keep the upside. Don't let anyone talk you into raising before you have to.",
+      2: "Seed-scale capital is available for this kind of thesis. Tighten the narrative and show a credible path to product-market fit within the raise.",
+      1: "Series A before PMF is a compressed timeline. Investors know this. Come in with a de-risked story or expect heavy dilution.",
+      0: "Infrastructure-first businesses are almost never started by first-time founders successfully. The burn rate becomes the boss. Know what you're signing up for."
+    }
+  },
+  {
+    id: 'q7', category: 'Narrative',
+    takes: {
+      3: "If the narrative is that clean, the pitch writes itself. Now go make sure the rest of the business matches the clarity of the story.",
+      2: "Two sentences is fine. Three is a negotiation. Four is a capitulation. Edit.",
+      1: "Industry insiders are your worst test audience. If you're pitching press, funders, or the public, you need the civilian version. Write it.",
+      0: "You don't know what you're building yet. That's okay — but stop pitching and start thinking. Come back when you can say it out loud without checking your notes."
+    }
+  },
+  {
+    id: 'q8', category: 'Founder–Market Fit',
+    takes: {
+      3: "The corpus is the credential. The archive is the proof. The fingerprint is the moat. You're not just the right founder — you're the only founder. That's the pitch.",
+      2: "Deep domain expertise is the baseline for being taken seriously. Now make the case for why you're not just credible but uniquely positioned. What do you have that nobody else does?",
+      1: "Adjacent is a story you can tell. But you'll spend half the meeting defending the leap. Spend the other half closing. Prepare both halves.",
+      0: "Passion is the minimum entry requirement. Galloway would ask: what happens when someone with your passion AND a structural advantage enters the market? What do you do then?"
+    }
+  }
+];
+
+let currentQ = 1;
+let answers = {};
+let scores = {};
+
+function startQuiz() {
+  document.getElementById('intro-section').style.display = 'none';
+  document.getElementById('start-section').style.display = 'none';
+  document.getElementById('quiz-section').classList.add('active');
+  updateProgress(1);
+}
+
+function updateProgress(qNum) {
+  const pct = ((qNum - 1) / 8) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `Question ${qNum} of 8`;
+}
+
+function selectAnswer(btn, score, qId, answerText) {
+  // Don't allow re-answering
+  if (scores[qId] !== undefined) return;
+
+  scores[qId] = score;
+  answers[qId] = answerText;
+
+  const q = questions.find(q => q.id === qId);
+
+  // Mark all options
+  const allBtns = btn.closest('.options').querySelectorAll('.option-btn');
+  allBtns.forEach(b => {
+    b.classList.add('wrong');
+    b.style.cursor = 'default';
+  });
+  btn.classList.remove('wrong');
+  btn.classList.add('correct');
+
+  // Show take
+  const takeEl = document.getElementById('take-' + qId);
+  const takeTextEl = document.getElementById('take-text-' + qId);
+  takeTextEl.textContent = q.takes[score];
+  takeEl.classList.add('visible');
+
+  // Show next
+  document.getElementById('next-' + qId).classList.add('visible');
+}
+
+function nextQuestion(current) {
+  document.getElementById('q' + current).classList.remove('active');
+  const next = current + 1;
+  document.getElementById('q' + next).classList.add('active');
+  updateProgress(next);
+  window.scrollTo({ top: document.getElementById('quiz-section').offsetTop - 20, behavior: 'smooth' });
+}
+
+function showResults() {
+  document.getElementById('quiz-section').classList.remove('active');
+  document.getElementById('results-section').classList.add('active');
+
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  document.getElementById('final-score').textContent = total;
+
+  let verdict, subverdict, nextSteps;
+
+  if (total >= 20) {
+    verdict = '"Prof G would take this call."';
+    subverdict = "The math works. The moat is real. The founder is the right founder. This is investable — or fundable through the work itself. Stop stress-testing and start building.";
+    nextSteps = [
+      "Lead with the founder-market fit story — it's the differentiator no competitor can replicate",
+      "The corpus is your credibility — cite it, date it, show it predates the conversation",
+      "Build the proof artifact first, then pitch. Don't ask for belief; demonstrate it.",
+      "The distribution play is the pitch. Who already has your audience? Partner or get licensed."
+    ];
+  } else if (total >= 15) {
+    verdict = '"Strong case. One thing to fix."';
+    subverdict = "Most of the architecture is right. The market is real, the founder has the right to win. One or two dimensions need tightening before you put this in front of the right person.";
+    nextSteps = [
+      "Audit your lowest-scoring dimension — that's the one that will get you rejected",
+      "The narrative needs to be a one-sentence weapon, not a paragraph explanation",
+      "Distribution is usually the hole — identify one existing channel before you scale",
+      "Model the margin explicitly. Funders want to see the number, not the estimate."
+    ];
+  } else if (total >= 10) {
+    verdict = '"Interesting. The math doesn\'t work yet."';
+    subverdict = "The idea has something. The founder may have something. But the model hasn't been pressure-tested enough to put capital against it. Fix the structural gaps before pitching.";
+    nextSteps = [
+      "Start with a narrower version — prove the model at small scale before arguing the TAM",
+      "The moat question is the urgent one — what specifically prevents replication?",
+      "Find one distribution channel that doesn't cost money and prove it works",
+      "Don't raise until you can show traction. Raise on proof, not potential."
+    ];
+  } else if (total >= 5) {
+    verdict = '"You\'re solving the wrong problem."';
+    subverdict = "The conviction is there but the strategy isn't. This is still an idea — it's not a business. Go back to fundamentals: who is the customer, what do they pay today, and why will they switch?";
+    nextSteps = [
+      "Do customer discovery before any more product thinking — talk to 20 people in the target market this week",
+      "Reframe the problem: what are people currently paying for that your idea replaces?",
+      "The narrative doesn't exist yet — write it as a newspaper headline from three years in the future",
+      "The founder-market fit story needs work — build the documented case for why this is your market to own"
+    ];
+  } else {
+    verdict = '"Start over."';
+    subverdict = "This isn't ready for scrutiny. That's not a fatal diagnosis — it's a location finding. The work now is to understand what you actually have before you start calling it something else.";
+    nextSteps = [
+      "Write one paragraph: what problem does this solve, for whom, and what do they pay today?",
+      "Do not pitch this idea to anyone in the next 30 days — use that time to build, not to persuade",
+      "Find the one dimension where you're strongest and build the whole thesis from there",
+      "Retake this test in 30 days after doing the foundational work"
+    ];
+  }
+
+  document.getElementById('final-verdict').textContent = verdict;
+  document.getElementById('final-subverdict').textContent = subverdict;
+
+  // Breakdown
+  const grid = document.getElementById('breakdown-grid');
+  grid.innerHTML = '';
+  questions.forEach(q => {
+    const s = scores[q.id] || 0;
+    const pct = (s / 3) * 100;
+    const color = s === 3 ? '#27ae60' : s === 2 ? '#d4a017' : s === 1 ? '#e67e22' : '#c0392b';
+    grid.innerHTML += `
+      <div class="breakdown-item">
+        <div class="breakdown-category">${q.category}</div>
+        <div class="breakdown-answer">${answers[q.id] || '—'}</div>
+        <div class="breakdown-score-bar">
+          <div class="breakdown-score-fill" style="width:${pct}%; background:${color};"></div>
+        </div>
+      </div>`;
+  });
+
+  const list = document.getElementById('next-steps-list');
+  list.innerHTML = nextSteps.map(s => `<li>${s}</li>`).join('');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function retakeQuiz() {
+  scores = {}; answers = {}; currentQ = 1;
+  questions.forEach(q => {
+    const card = document.getElementById(q.id);
+    card.classList.remove('active');
+    card.querySelectorAll('.option-btn').forEach(b => {
+      b.classList.remove('correct', 'wrong', 'selected');
+      b.style.cursor = 'pointer';
+    });
+    const take = document.getElementById('take-' + q.id);
+    if (take) take.classList.remove('visible');
+    const next = document.getElementById('next-' + q.id);
+    if (next) next.classList.remove('visible');
+  });
+  document.getElementById('q1').classList.add('active');
+  document.getElementById('results-section').classList.remove('active');
+  document.getElementById('quiz-section').classList.add('active');
+  updateProgress(1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
